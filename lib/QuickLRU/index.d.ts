@@ -105,3 +105,5 @@ export class QuickLRU<KeyType, ValueType> extends Map implements Iterable<[KeyTy
   */
   entriesDescending(): IterableIterator<[KeyType, ValueType]>;
 }
+
+export = QuickLRU;

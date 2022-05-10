@@ -1,6 +1,8 @@
 const { SocketManager } = require("../managers/SocketManager");
 const { defaultify } = require("stuffs");
 const { EventEmitter2 } = require("eventemitter2");
+const UserManager = require("../managers/UserManager");
+const TrackManager = require("../managers/TrackManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -69,13 +71,15 @@ class Client extends EventEmitter2 {
       },
       Socket: {
         extraHeaders: {
-          "User-Agent": `Matchify.js/${require("../../package.jsonson").version} (API Wrapper)`
+          "User-Agent": `Matchify.js/${require("../../package.json").version} (API Wrapper)`
         },
         hostname: "matchify.org"
       }
     }, true);
 
-    this.SocketManager = new SocketManager(this)
+    this.SocketManager = new SocketManager(this);
+    this.UserManager = new UserManager(this);
+    this.TrackManager = new TrackManager(this);
   }
 
   Connect() {

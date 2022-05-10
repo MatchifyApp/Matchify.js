@@ -17,20 +17,28 @@ class SocketSubscriptionManager {
     });
   }
 
-  Subscribe(eventName) {
-    if (this.Subscriptions.has(eventName)) return false;
-    this.Subscriptions.add(eventName);
+  Subscribe(eventNames = []) {
+    let e = [];
+    eventNames.forEach(eventName => {
+      if (this.Subscriptions.has(eventName)) return;
+      this.Subscriptions.add(eventName);
+      e.push(eventName);
+    });
     this.Socket.emit("Subscriptions:Subscribe", {
-      Subscriptions: [eventName]
+      Subscriptions: e
     });
     return true;
   }
 
-  Unsubscribe(eventName) {
-    if (!this.Subscriptions.has(eventName)) return false;
-    this.Subscriptions.delete(eventName);
+  Unsubscribe(eventNames = []) {
+    let e = [];
+    eventNames.forEach(eventName => {
+      if (!this.Subscriptions.has(eventName)) return;
+      this.Subscriptions.delete(eventName);
+      e.push(eventName);
+    });
     this.Socket.emit("Subscriptions:Unsubscribe", {
-      Subscriptions: [eventName]
+      Subscriptions: e
     });
     return true;
   }

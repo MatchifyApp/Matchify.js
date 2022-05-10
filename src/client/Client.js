@@ -73,7 +73,8 @@ class Client extends EventEmitter2 {
         extraHeaders: {
           "User-Agent": `Matchify.js/${require("../../package.json").version} (API Wrapper)`
         },
-        hostname: "matchify.org"
+        hostname: "matchify.org",
+        port: 80
       }
     }, true);
 

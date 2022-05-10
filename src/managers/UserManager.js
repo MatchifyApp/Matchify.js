@@ -11,6 +11,7 @@ class UserManager {
       ...client.Options.Managers.User.LRU,
       onEviction(key) {
         client.SocketManager.SubscriptionManager.Unsubscribe(`User:${key}:Listeners`);
+        client.SocketManager.SubscriptionManager.Unsubscribe(`User:${key}:Listeners`);
       }
     })
   }

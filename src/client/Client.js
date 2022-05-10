@@ -35,7 +35,7 @@ class Client extends EventEmitter2 {
         Track: {
           LRU: {
             maxAge: 21600000,
-            maxSize: 16000
+            maxSize: 16384
           },
           Cache: {
             Listeners: true
@@ -44,7 +44,7 @@ class Client extends EventEmitter2 {
         Album: {
           LRU: {
             maxAge: 21600000,
-            maxSize: 16000
+            maxSize: 16384
           },
           Cache: {
             Listeners: true
@@ -53,7 +53,7 @@ class Client extends EventEmitter2 {
         Artist: {
           LRU: {
             maxAge: 21600000,
-            maxSize: 16000
+            maxSize: 16384
           },
           Cache: {
             Listeners: true
@@ -62,7 +62,7 @@ class Client extends EventEmitter2 {
         User: {
           LRU: {
             maxAge: 21600000,
-            maxSize: 16000
+            maxSize: 16384
           },
           Cache: {
             Genres: true

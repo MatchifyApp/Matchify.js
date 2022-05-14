@@ -75,6 +75,7 @@ class Client extends EventEmitter2 {
         extraHeaders: {
           "User-Agent": `Matchify.js/${require("../../package.json").version} (API Wrapper)`
         },
+        url: "https://matchify.org/",
       }
     }, true);
 

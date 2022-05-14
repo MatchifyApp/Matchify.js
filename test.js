@@ -12,10 +12,16 @@ client.SocketManager.Socket.on("connect", (a) => {
 
 client.Connect();
 
-client.onAny(console.log)
+// client.onAny(console.log)
+// client.SocketManager.Socket.onAny(console.log);
 
-client.SocketManager.Socket.onAny(console.log);
+client.UserManager.Fetch("707309693449535599");
 
-client.UserManager.Fetch("707309693449535599").then(user => {
-  console.log(user);
-});
+setInterval(() => {
+  console.clear();
+  console.log({
+    totalSize: client.UserManager.Cache.size,
+    ListenerCount: [...client.UserManager.Cache.values()].filter(i=>i.CurrentPlaying).length
+  });
+}, 100);
+

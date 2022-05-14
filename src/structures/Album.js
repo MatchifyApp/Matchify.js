@@ -16,5 +16,7 @@ module.exports = class Album {
     this.Genres = data.Genres ?? this.Genres ?? new Map();
     /** @type {Map<string, import("./User")>} */
     this.Listeners = data.Listeners ?? this.Listeners ?? new Map();
+    /** @type {Map<string, import("./Artist")>} */
+    this.Artists = data.Artists ?? this.Artists ?? new Map();
   }
 }

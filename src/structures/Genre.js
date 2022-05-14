@@ -11,9 +11,7 @@ module.exports = class Genre {
     this.ShareCount = data.ShareCount ?? this.ShareCount ?? 0;
     this.CommentCount = data.CommentCount ?? this.CommentCount ?? 0;
     this.ListenedCount = data.ListenedCount ?? this.ListenedCount ?? 0;
-    /**
-     * @type {Map<string, import("./User")>}
-     */
+    /** @type {Map<string, import("./User")>} */
     this.Listeners = data.Listeners ?? this.Listeners ?? new Map();
   }
 }

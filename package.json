@@ -1,7 +1,7 @@
 {
   "name": "matchify.js",
-  "version": "0.0.1",
-  "main": "test.js",
+  "version": "0.0.2",
+  "main": "src/index.js",
   "repository": "https://github.com/MatchifyApp/Matchify.js.git",
   "author": "Kıraç Armağan Önal <kiracarmaganonal@gmail.com>",
   "license": "MIT",
@@ -12,5 +12,8 @@
     "eventemitter2": "^6.4.5",
     "socket.io-client": "^4.5.0",
     "stuffs": "^0.1.14"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.33"
   }
 }

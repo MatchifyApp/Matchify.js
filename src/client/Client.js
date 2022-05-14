@@ -5,6 +5,8 @@ const UserManager = require("../managers/UserManager");
 const TrackManager = require("../managers/TrackManager");
 const chillout = require("chillout");
 const ArtistManager = require("../managers/ArtistManager");
+const AlbumManager = require("../managers/AlbumManager");
+const GenreManager = require("../managers/GenreManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -16,6 +18,7 @@ const ArtistManager = require("../managers/ArtistManager");
  * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Album
  * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Artist
  * @property {{ LRU: LRUOptions, Cache: { Genres: boolean } }} User
+ * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Genre
  */
 
 /**
@@ -36,7 +39,7 @@ class Client extends EventEmitter2 {
       Managers: {
         Track: {
           LRU: {
-            maxAge: 21600000,
+            maxAge: 3600000,
             maxSize: 16384
           },
           Cache: {
@@ -45,7 +48,7 @@ class Client extends EventEmitter2 {
         },
         Album: {
           LRU: {
-            maxAge: 21600000,
+            maxAge: 3600000,
             maxSize: 16384
           },
           Cache: {
@@ -54,7 +57,7 @@ class Client extends EventEmitter2 {
         },
         Artist: {
           LRU: {
-            maxAge: 21600000,
+            maxAge: 3600000,
             maxSize: 16384
           },
           Cache: {
@@ -63,11 +66,20 @@ class Client extends EventEmitter2 {
         },
         User: {
           LRU: {
-            maxAge: 21600000,
+            maxAge: 3600000,
             maxSize: 16384
           },
           Cache: {
             Genres: true
+          }
+        },
+        Genre: {
+          LRU: {
+            maxAge: 3600000,
+            maxSize: 16384
+          },
+          Cache: {
+            Listeners: true
           }
         }
       },
@@ -83,6 +95,8 @@ class Client extends EventEmitter2 {
     this.UserManager = new UserManager(this);
     this.TrackManager = new TrackManager(this);
     this.ArtistManager = new ArtistManager(this);
+    this.AlbumManager = new AlbumManager(this);
+    this.GenreManager = new GenreManager(this);
   }
   Connect() {
     if (this.SocketManager.Socket.connected) throw new Error("Already connected to the socket!");

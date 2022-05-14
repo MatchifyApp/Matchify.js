@@ -1,4 +1,5 @@
 const QuickLRU = require('@lib/quick-lru');
+const { quickForEach } = require("async-and-quick");
 const User = require("../structures/User");
 
 module.exports = class UserManager {
@@ -27,8 +28,27 @@ module.exports = class UserManager {
     client.SocketManager.Socket.on("User:Track", async data => {
       let user = this.Cache.get(data.Id);
       if (!user) return;
-      let track = await client.TrackManager.Fetch(data.TrackId);
-      user._Patch({ CurrentPlaying: track });
+      let track = data.TrackId ? await client.TrackManager.Fetch(data.TrackId) : null;
+      user._Patch({ CurrentPlaying: track, ListenedCount: user.ListenedCount + (data.TrackId ? 1 : 0) });
+
+      if (track && this.Client.Options.Managers.User.Cache.Genres) {
+        track.Genres.forEach(genre => { 
+          let ug = user.Genres.get(genre.Id);
+          if (ug) {
+            ug.Count += 1;
+          } else {
+            user.Genres.set(genre.Id, {
+              Genre: genre,
+              Count: 1
+            });
+          }
+        });
+      }
+
+      client.emit("User:Track", {
+        User: user,
+        Track: track
+      });
     });
   }
 
@@ -45,9 +65,24 @@ module.exports = class UserManager {
     let currentTrackData = await this.Client.SocketManager.AwaitResponse(`Users:Get:Current`, {
       Id: userId
     });
+    let genresMap = new Map();
+
+    if (this.Client.Options.Managers.User.Cache.Genres) { 
+      let userGenres = await this.Client.SocketManager.AwaitResponse(`Users:Get:Genres`, {
+        Id: userId
+      });
+      await quickForEach(userGenres, async genre => { 
+        genresMap.set(genre.Id, {
+          Genre: await this.Client.GenreManager.Fetch(genre.Id),
+          Count: genre.Count
+        });
+      });
+    }
+
     user = new User({
       ...data,
-      CurrentPlaying: currentTrackData.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null
+      CurrentPlaying: currentTrackData?.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null,
+      Genres: genresMap
     });
     this.Cache.set(userId, user);
     return user;

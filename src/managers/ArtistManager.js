@@ -29,9 +29,10 @@ module.exports = class ArtistManager {
   async #HandleListener(data) {
     let artist = this.Cache.get(data.Id);
     if (!artist) return;
+    let user = await this.Client.UserManager.Fetch(data.UserId);
     if (data.Listening) {
-      let user = await this.Client.UserManager.Fetch(data.UserId);
       artist.Listeners.set(data.UserId, user);
+      artist._Patch({ ListenedCount: artist.ListenedCount + 1 });
     } else {
       artist.Listeners.delete(data.UserId);
     }
@@ -44,7 +45,7 @@ module.exports = class ArtistManager {
 
   async #SubscribeToListeners(artistId) {
     if (!this.Client.Options.Managers.Artist.Cache.Listeners) return;
-    if (this.Cache.has(artistId)) return;
+
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `Artist:${artistId}:Listener`
     ]);
@@ -74,7 +75,17 @@ module.exports = class ArtistManager {
   async Import(data) {
     let artist = this.Cache.get(data.Id);
     if (artist) return artist;
-    artist = new Artist(data);
+
+    let genresMap = new Map();
+    await quickForEach(data.Genres, async data => {
+      let genre = await this.Client.GenreManager.Import(data);
+      genresMap.set(genre.Id, genre);
+    });
+
+    artist = new Artist({
+      ...data,
+      Genres: genresMap
+    });
     this.Cache.set(artist.Id, artist);
     await this.#SubscribeToListeners(artist.Id);
     return artist;

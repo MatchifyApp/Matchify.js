@@ -8,7 +8,7 @@ class SocketManager {
    */
   constructor (client) {
     this.Client = client;
-    this.Socket = io({
+    this.Socket = io(client.Options.Socket.url, {
       ...client.Options.Socket,
       autoConnect: false
     });

@@ -10,6 +10,18 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
+async-and-quick@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/async-and-quick/-/async-and-quick-1.0.1.tgz#d0723204579c56c4461cd0dc9206ad5e24a64a55"
+  integrity sha512-iLiwkBf0rnXtwpH40JUJBAA/1n/1/52FehFfXUrLxB+whAiPhvcSV5Kd0vCZ/LTgEUMHhg41pw0eDbkKosRwJQ==
+  dependencies:
+    chillout "^5.0.0"
+
+chillout@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/chillout/-/chillout-5.0.0.tgz#ce7def0671c207d649c9b1f35f5f2245b94b0065"
+  integrity sha512-xCyFUOrkOVBSaZ1pKXUZcrKhMsPkWh4jWPa9rp4zE+wHE5h4NTO7z8K5rLhV989dtQatDOoMhTe9Vi2S96QEhQ==
+
 debug@~4.3.1, debug@~4.3.2:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"

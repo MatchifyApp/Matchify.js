@@ -3,6 +3,8 @@ const { defaultify } = require("stuffs");
 const { EventEmitter2 } = require("eventemitter2");
 const UserManager = require("../managers/UserManager");
 const TrackManager = require("../managers/TrackManager");
+const chillout = require("chillout");
+const ArtistManager = require("../managers/ArtistManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -20,7 +22,7 @@ const TrackManager = require("../managers/TrackManager");
  * @typedef {Object} ClientOptions
  * @property {ManagerOptions} Managers
  * @property {{Token: string}} Authorization
- * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions>} Socket
+ * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} Socket
  */
 
 class Client extends EventEmitter2 {
@@ -73,19 +75,18 @@ class Client extends EventEmitter2 {
         extraHeaders: {
           "User-Agent": `Matchify.js/${require("../../package.json").version} (API Wrapper)`
         },
-        hostname: "matchify.org",
-        port: 80
       }
     }, true);
 
     this.SocketManager = new SocketManager(this);
     this.UserManager = new UserManager(this);
     this.TrackManager = new TrackManager(this);
+    this.ArtistManager = new ArtistManager(this);
   }
-
   Connect() {
     if (this.SocketManager.Socket.connected) throw new Error("Already connected to the socket!");
-    return this.SocketManager.Socket.connect();
+    this.SocketManager.Socket.connect()
+    return;
   }
 
   Destroy() {

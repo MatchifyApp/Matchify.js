@@ -1,7 +1,7 @@
 const QuickLRU = require('@lib/quick-lru');
 const User = require("../structures/User");
 
-class UserManager {
+module.exports = class UserManager {
 
   /**
    * @param {import("../client/Client").Client} client 
@@ -42,7 +42,13 @@ class UserManager {
       `User:${userId}:Track`,
       `User:${userId}:Update`
     ]);
-    user = new User(data);
+    let currentTrackData = await this.Client.SocketManager.AwaitResponse(`Users:Get:Current`, {
+      Id: userId
+    });
+    user = new User({
+      ...data,
+      CurrentPlaying: currentTrackData.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null
+    });
     this.Cache.set(userId, user);
     return user;
   }
@@ -51,5 +57,3 @@ class UserManager {
     this.Cache.clear();
   }
 }
-
-module.exports = UserManager;

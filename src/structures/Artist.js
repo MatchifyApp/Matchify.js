@@ -13,7 +13,9 @@ module.exports = class Artist {
     this.ShareCount = data.ShareCount ?? this.ShareCount ?? 0;
     this.CommentCount = data.CommentCount ?? this.CommentCount ?? 0;
     this.ListenedCount = data.ListenedCount ?? this.ListenedCount ?? 0;
-    this.Genres = data.Genres ?? this.Genres ?? [];
-    this.Listeners = data.Listeners ?? this.Listeners ?? [];
+    /** @type {Map<string, import("./Genre")>} */
+    this.Genres = data.Genres ?? this.Genres ?? new Map();
+    /** @type {Map<string, import("./User")>} */
+    this.Listeners = data.Listeners ?? this.Listeners ?? new Map();
   }
 }

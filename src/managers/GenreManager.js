@@ -1,5 +1,5 @@
 const QuickLRU = require("@lib/quick-lru");
-const { quickForEach } = require("async-and-quick");
+const { quickForEach, quickMap } = require("async-and-quick");
 const Genre = require("../structures/Genre");
 
 module.exports = class GenreManager {

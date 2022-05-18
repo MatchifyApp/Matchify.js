@@ -1,5 +1,5 @@
 const QuickLRU = require("@lib/quick-lru");
-const { quickForEach } = require("async-and-quick");
+const { quickForEach, quickMap } = require("async-and-quick");
 const Artist = require("../structures/Artist");
 
 module.exports = class ArtistManager { 

@@ -93,7 +93,7 @@ module.exports = class GenreManager {
     });
     return await quickMap(data, async data => {
       return {
-        Genre: await this.Fetch(data.Id),
+        Genre: data.Id ? await this.Fetch(data.Id) : null,
         ListenersCount: data.ListenersCount
       };
     });

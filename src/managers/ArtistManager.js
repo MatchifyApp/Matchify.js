@@ -21,12 +21,12 @@ module.exports = class ArtistManager {
 
     if (this.Client.Options.Managers.Artist.Cache.Listeners) {
       this.Client.SocketManager.Socket.on("Artist:Listener", async data => { 
-        this.#HandleListener(data);
+        this._HandleListener(data);
       });
     }
   }
 
-  async #HandleListener(data) {
+  async _HandleListener(data) {
     let artist = this.Cache.get(data.Id);
     if (!artist) return;
     let user = await this.Client.UserManager.Fetch(data.UserId);
@@ -43,7 +43,7 @@ module.exports = class ArtistManager {
     });
   }
 
-  async #SubscribeToListeners(artistId) {
+  async _SubscribeToListeners(artistId) {
     if (!this.Client.Options.Managers.Artist.Cache.Listeners) return;
 
     this.Client.SocketManager.SubscriptionManager.Subscribe([
@@ -55,7 +55,7 @@ module.exports = class ArtistManager {
       Limit: Number.MAX_SAFE_INTEGER
     });
     await quickForEach(data, async Listener => {
-      await this.#HandleListener({
+      await this._HandleListener({
         Id: artistId,
         UserId: Listener.UserId,
         Listening: true
@@ -87,14 +87,14 @@ module.exports = class ArtistManager {
       Genres: genresMap
     });
     this.Cache.set(artist.Id, artist);
-    await this.#SubscribeToListeners(artist.Id);
+    await this._SubscribeToListeners(artist.Id);
     return artist;
   }
 
   /**
    * @param {number} offset 
    * @param {number} limit 
-   * @returns {Promise<{Artist: Artist, ListenerCount: number}[]>}
+   * @returns {Promise<{Artist: Artist, ListenersCount: number}[]>}
    */
   async FetchPopular(offset = 0, limit = 50) {
     const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Popular`, {
@@ -104,7 +104,7 @@ module.exports = class ArtistManager {
     return await quickMap(data, async data => {
       return {
         Artist: await this.Fetch(data.Id),
-        ListenerCount: data.ListenerCount
+        ListenersCount: data.ListenersCount
       };
     });
   }

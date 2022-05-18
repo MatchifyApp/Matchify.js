@@ -22,12 +22,12 @@ module.exports = class GenreManager {
 
     if (this.Client.Options.Managers.Genre.Cache.Listeners) {
       this.Client.SocketManager.Socket.on("Genre:Listener", async data => {
-        this.#HandleListener(data);
+        this._HandleListener(data);
       });
     }
   }
 
-  async #HandleListener(data) {
+  async _HandleListener(data) {
     let genre = this.Cache.get(data.Id);
     if (!genre) return;
     let user = await this.Client.UserManager.Fetch(data.UserId);
@@ -44,7 +44,7 @@ module.exports = class GenreManager {
     });
   }
 
-  async #SubscribeToListeners(genreId) {
+  async _SubscribeToListeners(genreId) {
     if (!this.Client.Options.Managers.Genre.Cache.Listeners) return;
 
     this.Client.SocketManager.SubscriptionManager.Subscribe([
@@ -56,7 +56,7 @@ module.exports = class GenreManager {
       Limit: Number.MAX_SAFE_INTEGER
     });
     await quickForEach(data, async Listener => {
-      await this.#HandleListener({
+      await this._HandleListener({
         Id: genreId,
         UserId: Listener.UserId,
         Listening: true
@@ -77,14 +77,14 @@ module.exports = class GenreManager {
     if (genre) return genre;
     genre = new Genre(data);
     this.Cache.set(genre.Id, genre);
-    await this.#SubscribeToListeners(genre.Id);
+    await this._SubscribeToListeners(genre.Id);
     return genre;
   }
 
   /**
  * @param {number} offset 
  * @param {number} limit 
- * @returns {Promise<{Genre: Genre, ListenerCount: number}[]>}
+ * @returns {Promise<{Genre: Genre, ListenersCount: number}[]>}
  */
   async FetchPopular(offset = 0, limit = 50) {
     const data = await this.Client.SocketManager.AwaitResponse(`Genres:Get:Popular`, {
@@ -94,7 +94,7 @@ module.exports = class GenreManager {
     return await quickMap(data, async data => {
       return {
         Genre: await this.Fetch(data.Id),
-        ListenerCount: data.ListenerCount
+        ListenersCount: data.ListenersCount
       };
     });
   }

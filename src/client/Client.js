@@ -1,9 +1,8 @@
 const { SocketManager } = require("../managers/SocketManager");
-const { defaultify } = require("stuffs");
+const defaultify = require("stuffs/lib/defaultify");
 const { EventEmitter2 } = require("eventemitter2");
 const UserManager = require("../managers/UserManager");
 const TrackManager = require("../managers/TrackManager");
-const chillout = require("chillout");
 const ArtistManager = require("../managers/ArtistManager");
 const AlbumManager = require("../managers/AlbumManager");
 const GenreManager = require("../managers/GenreManager");
@@ -43,7 +42,7 @@ class Client extends EventEmitter2 {
             maxSize: 16384
           },
           Cache: {
-            Listeners: true
+            Listeners: false
           }
         },
         Album: {
@@ -52,7 +51,7 @@ class Client extends EventEmitter2 {
             maxSize: 16384
           },
           Cache: {
-            Listeners: true
+            Listeners: false
           }
         },
         Artist: {
@@ -61,7 +60,7 @@ class Client extends EventEmitter2 {
             maxSize: 16384
           },
           Cache: {
-            Listeners: true
+            Listeners: false
           }
         },
         User: {
@@ -70,7 +69,7 @@ class Client extends EventEmitter2 {
             maxSize: 16384
           },
           Cache: {
-            Genres: true
+            Genres: false
           }
         },
         Genre: {
@@ -79,7 +78,7 @@ class Client extends EventEmitter2 {
             maxSize: 16384
           },
           Cache: {
-            Listeners: true
+            Listeners: false
           }
         }
       },

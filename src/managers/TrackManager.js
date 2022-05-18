@@ -21,12 +21,12 @@ module.exports = class TrackManager {
 
     if (this.Client.Options.Managers.Track.Cache.Listeners) {
       this.Client.SocketManager.Socket.on("Track:Listener", async data => { 
-        this.#HandleListener(data);
+        this._HandleListener(data);
       });
     }
   }
 
-  async #HandleListener(data) { 
+  async _HandleListener(data) { 
     let track = this.Cache.get(data.Id);
     if (!track) return;
     let user = await this.Client.UserManager.Fetch(data.UserId);
@@ -43,7 +43,7 @@ module.exports = class TrackManager {
     });
   }
   
-  async #SubscribeToListeners(trackId) { 
+  async _SubscribeToListeners(trackId) { 
     if (!this.Client.Options.Managers.Track.Cache.Listeners) return;
 
     this.Client.SocketManager.SubscriptionManager.Subscribe([
@@ -55,7 +55,7 @@ module.exports = class TrackManager {
       Limit: Number.MAX_SAFE_INTEGER
     });
     await quickForEach(data, async Listener => {
-      await this.#HandleListener({
+      await this._HandleListener({
         Id: trackId,
         UserId: Listener.UserId,
         Listening: true
@@ -98,14 +98,14 @@ module.exports = class TrackManager {
       Album: album
     });
     this.Cache.set(track.Id, track);
-    await this.#SubscribeToListeners(track.Id);
+    await this._SubscribeToListeners(track.Id);
     return track;
   }
 
   /**
    * @param {number} offset 
    * @param {number} limit 
-   * @returns {Promise<{Track: Track, ListenerCount: number}[]>}
+   * @returns {Promise<{Track: Track, ListenersCount: number}[]>}
    */
   async FetchPopular(offset = 0, limit = 50) {
     const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Popular`, {
@@ -115,7 +115,7 @@ module.exports = class TrackManager {
     return await quickMap(data, async data => {
       return {
         Track: await this.Fetch(data.Id),
-        ListenerCount: data.ListenerCount
+        ListenersCount: data.ListenersCount
       };
     });
   }

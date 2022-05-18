@@ -97,4 +97,8 @@ module.exports = class AlbumManager {
     await this.#SubscribeToListeners(album.Id);
     return album;
   }
+
+  Destroy() { 
+    this.Cache.clear();
+  }
 }

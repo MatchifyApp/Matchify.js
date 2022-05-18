@@ -101,4 +101,8 @@ module.exports = class TrackManager {
     await this.#SubscribeToListeners(track.Id);
     return track;
   }
+
+  Destroy() {
+    this.Cache.clear();
+  }
 }

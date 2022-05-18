@@ -80,4 +80,8 @@ module.exports = class GenreManager {
     await this.#SubscribeToListeners(genre.Id);
     return genre;
   }
+
+  Destroy() {
+    this.Cache.clear();
+  }
 }

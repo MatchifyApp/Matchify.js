@@ -90,4 +90,8 @@ module.exports = class ArtistManager {
     await this.#SubscribeToListeners(artist.Id);
     return artist;
   }
+
+  Destroy() {
+    this.Cache.clear();
+  }
 }

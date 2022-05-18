@@ -106,6 +106,11 @@ class Client extends EventEmitter2 {
 
   Destroy() {
     this.SocketManager.Destroy();
+    this.UserManager.Destroy();
+    this.TrackManager.Destroy();
+    this.ArtistManager.Destroy();
+    this.AlbumManager.Destroy();
+    this.GenreManager.Destroy();
   }
 
 }

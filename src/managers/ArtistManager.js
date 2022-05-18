@@ -91,6 +91,24 @@ module.exports = class ArtistManager {
     return artist;
   }
 
+  /**
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<{Artist: Artist, ListenerCount: number}[]>}
+   */
+  async FetchPopular(offset = 0, limit = 50) {
+    const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Popular`, {
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        Artist: await this.Fetch(data.Id),
+        ListenerCount: data.ListenerCount
+      };
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

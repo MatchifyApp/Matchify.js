@@ -1,5 +1,5 @@
 const QuickLRU = require("@lib/quick-lru");
-const { quickForEach } = require("async-and-quick");
+const { quickForEach, quickMap } = require("async-and-quick");
 const Track = require("../structures/Track");
 
 module.exports = class TrackManager { 
@@ -100,6 +100,24 @@ module.exports = class TrackManager {
     this.Cache.set(track.Id, track);
     await this.#SubscribeToListeners(track.Id);
     return track;
+  }
+
+  /**
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<{Track: Track, ListenerCount: number}[]>}
+   */
+  async FetchPopular(offset = 0, limit = 50) {
+    const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Popular`, {
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        Track: await this.Fetch(data.Id),
+        ListenerCount: data.ListenerCount
+      };
+    });
   }
 
   Destroy() {

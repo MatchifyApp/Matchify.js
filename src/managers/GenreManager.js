@@ -81,6 +81,24 @@ module.exports = class GenreManager {
     return genre;
   }
 
+  /**
+ * @param {number} offset 
+ * @param {number} limit 
+ * @returns {Promise<{Genre: Genre, ListenerCount: number}[]>}
+ */
+  async FetchPopular(offset = 0, limit = 50) {
+    const data = await this.Client.SocketManager.AwaitResponse(`Genres:Get:Popular`, {
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        Genre: await this.Fetch(data.Id),
+        ListenerCount: data.ListenerCount
+      };
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

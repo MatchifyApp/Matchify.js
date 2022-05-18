@@ -14,23 +14,23 @@ const GenreManager = require("../managers/GenreManager");
 
 /**
  * @typedef {Object} ManagerOptions
- * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Track
- * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Album
- * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Artist
- * @property {{ LRU: LRUOptions, Cache: { Genres: boolean } }} User
- * @property {{ LRU: LRUOptions, Cache: { Listeners: boolean } }} Genre
+ * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Track]
+ * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Album]
+ * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Artist]
+ * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean } }} [User]
+ * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Genre]
  */
 
 /**
  * @typedef {Object} ClientOptions
- * @property {ManagerOptions} Managers
- * @property {{Token: string}} Authorization
- * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} Socket
+ * @property {ManagerOptions} [Managers]
+ * @property {{Token: string}} [Authorization]
+ * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} [Socket]
  */
 
 class Client extends EventEmitter2 {
   /**
-   * @param {ClientOptions} clientOptions 
+   * @param {ClientOptions} [clientOptions]
    */
   constructor (clientOptions = {}) {
     super({ignoreErrors: true, verboseMemoryLeak: true});

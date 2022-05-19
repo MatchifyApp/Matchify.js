@@ -13,7 +13,7 @@ module.exports = class AlbumManager {
     this.Cache = new QuickLRU({
       ...client.Options.Managers.Album.LRU,
       onEviction(key) {
-        this.Client.SocketManager.SubscriptionManager.Unsubscribe([
+        client.SocketManager.SubscriptionManager.Unsubscribe([
           `Album:${key}:Listener`
         ]);
       }

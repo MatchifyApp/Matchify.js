@@ -13,7 +13,7 @@ module.exports = class TrackManager {
     this.Cache = new QuickLRU({
       ...client.Options.Managers.Track.LRU,
       onEviction(key) {
-        this.Client.SocketManager.SubscriptionManager.Unsubscribe([
+        client.SocketManager.SubscriptionManager.Unsubscribe([
           `Track:${key}:Listener`
         ]);
       }

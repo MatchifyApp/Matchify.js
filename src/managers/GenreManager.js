@@ -14,7 +14,7 @@ module.exports = class GenreManager {
     this.Cache = new QuickLRU({
       ...client.Options.Managers.Genre.LRU,
       onEviction(key) {
-        this.Client.SocketManager.SubscriptionManager.Unsubscribe([
+        client.SocketManager.SubscriptionManager.Unsubscribe([
           `Genre:${key}:Listener`
         ]);
       }

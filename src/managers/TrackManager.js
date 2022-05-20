@@ -79,7 +79,7 @@ module.exports = class TrackManager {
     });
     if (data) {
       this.Client.SocketManager.SubscriptionManager.Subscribe([
-        `Track:${albumId}:Increment`
+        `Track:${trackId}:Increment`
       ]);
       return this.Import(data);
     }

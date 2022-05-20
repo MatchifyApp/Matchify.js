@@ -97,7 +97,7 @@ module.exports = class ArtistManager {
 * @param {number} limit 
 * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date, Track: import("../structures/Track")}[]>}
 */
-  async FetchListeners(id, offset = 0, limit = Number.MAX_VALUE) {
+  async FetchListeners(id, offset = 0, limit = Number.MAX_SAFE_INTEGER) {
     const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Listeners`, {
       Id: id,
       Offset: offset,

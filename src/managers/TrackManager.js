@@ -108,7 +108,7 @@ module.exports = class TrackManager {
    * @param {number} limit 
    * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date}[]>}
    */
-  async FetchListeners(id, offset = 0, limit = Number.MAX_VALUE) { 
+  async FetchListeners(id, offset = 0, limit = Number.MAX_SAFE_INTEGER) { 
     const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Listeners`, {
       Id: id,
       Offset: offset,

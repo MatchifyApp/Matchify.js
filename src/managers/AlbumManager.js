@@ -14,7 +14,8 @@ module.exports = class AlbumManager {
       ...client.Options.Managers.Album.LRU,
       onEviction(key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
-          `Album:${key}:Listener`
+          `Album:${key}:Listener`,
+          `Album:${key}:Increment`
         ]);
       }
     });
@@ -24,6 +25,14 @@ module.exports = class AlbumManager {
         this._HandleListener(data);
       });
     }
+
+    this.Client.SocketManager.Socket.on("Album:Increment", async data => {
+      let item = this.Cache.get(data.Id);
+      if (!item) return;
+      item._Patch({
+        [data.What]: item[data.What] + data.Count
+      });
+    });
   }
 
   async _HandleListener(data) {
@@ -69,7 +78,12 @@ module.exports = class AlbumManager {
     const data = await this.Client.SocketManager.AwaitResponse(`Albums:Get`, {
       Id: albumId
     });
-    return this.Import(data);
+    if (data) {
+      this.Client.SocketManager.SubscriptionManager.Subscribe([
+        `Album:${albumId}:Increment`
+      ]);
+      return this.Import(data);
+    }
   }
 
   async Import(data) {

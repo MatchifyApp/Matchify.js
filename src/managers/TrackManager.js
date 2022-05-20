@@ -24,6 +24,14 @@ module.exports = class TrackManager {
         this._HandleListener(data);
       });
     }
+    
+    this.Client.SocketManager.Socket.on("Track:Increment", async data => {
+      let item = this.Cache.get(data.Id);
+      if (!item) return;
+      item._Patch({
+        [data.What]: item[data.What] + data.Count
+      });
+    });
   }
 
   async _HandleListener(data) { 
@@ -69,7 +77,12 @@ module.exports = class TrackManager {
     const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get`, {
       Id: trackId
     });
-    return this.Import(data);
+    if (data) {
+      this.Client.SocketManager.SubscriptionManager.Subscribe([
+        `Track:${albumId}:Increment`
+      ]);
+      return this.Import(data);
+    }
   }
 
   async Import(data) {

@@ -25,6 +25,14 @@ module.exports = class GenreManager {
         this._HandleListener(data);
       });
     }
+
+    this.Client.SocketManager.Socket.on("Genre:Increment", async data => {
+      let item = this.Cache.get(data.Id);
+      if (!item) return;
+      item._Patch({
+        [data.What]: item[data.What] + data.Count
+      });
+    });
   }
 
   async _HandleListener(data) {
@@ -69,7 +77,12 @@ module.exports = class GenreManager {
     let data = await this.Client.SocketManager.AwaitResponse(`Genres:Get`, {
       Id: genreId
     });
-    return this.Import(data);
+    if (data) {
+      this.Client.SocketManager.SubscriptionManager.Subscribe([
+        `Genre:${genreId}:Increment`
+      ]);
+      return this.Import(data);
+    }
   }
 
   async Import(data) {

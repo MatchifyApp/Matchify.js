@@ -1,6 +1,6 @@
 {
   "name": "matchify.js",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "main": "src/index.js",
   "repository": "https://github.com/MatchifyApp/Matchify.js.git",
   "author": "Kıraç Armağan Önal <kiracarmaganonal@gmail.com>",

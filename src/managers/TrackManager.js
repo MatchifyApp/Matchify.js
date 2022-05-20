@@ -103,6 +103,26 @@ module.exports = class TrackManager {
   }
 
   /**
+   * @param {string} id 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date}[]>}
+   */
+  async FetchListeners(id, offset = 0, limit = Number.MAX_VALUE) { 
+    const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Listeners`, {
+      Id: id,
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        User: await this.Client.UserManager.Fetch(data.UserId),
+        LastUpdated: new Date(data.LastUpdated)
+      };
+    });
+  }
+
+  /**
    * @param {number} offset 
    * @param {number} limit 
    * @returns {Promise<{Track: Track, ListenersCount: number}[]>}

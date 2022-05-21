@@ -24,7 +24,7 @@ module.exports = class HTTPManager {
       },
       data: JSON.stringify(data)
     })
-    if (!response.data.ok) throw data.error;
-    return x.data;
+    if (!response.data.ok) throw response.data.error;
+    return response.data.data;
   }
 }

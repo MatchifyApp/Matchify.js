@@ -58,7 +58,7 @@ module.exports = class GenreManager {
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `Genre:${genreId}:Listener`
     ]);
-    let data = await this.Client.SocketManager.AwaitResponse(`Genres:Get:Listeners`, {
+    let data = await this.Client.AwaitResponse(`Genres:Get:Listeners`, {
       Id: genreId,
       Offset: 0,
       Limit: Number.MAX_SAFE_INTEGER
@@ -74,7 +74,7 @@ module.exports = class GenreManager {
 
   async Fetch(genreId) {
     if (this.Cache.has(genreId)) return this.Cache.get(genreId);
-    let data = await this.Client.SocketManager.AwaitResponse(`Genres:Get`, {
+    let data = await this.Client.AwaitResponse(`Genres:Get`, {
       Id: genreId
     });
     if (data) {
@@ -101,7 +101,7 @@ module.exports = class GenreManager {
 * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date, Track: import("../structures/Track")}[]>}
 */
   async FetchListeners(id, offset = 0, limit = Number.MAX_SAFE_INTEGER) {
-    const data = await this.Client.SocketManager.AwaitResponse(`Genres:Get:Listeners`, {
+    const data = await this.Client.AwaitResponse(`Genres:Get:Listeners`, {
       Id: id,
       Offset: offset,
       Limit: limit
@@ -121,7 +121,7 @@ module.exports = class GenreManager {
  * @returns {Promise<{Genre: Genre, ListenersCount: number}[]>}
  */
   async FetchPopular(offset = 0, limit = 50) {
-    const data = await this.Client.SocketManager.AwaitResponse(`Genres:Get:Popular`, {
+    const data = await this.Client.AwaitResponse(`Genres:Get:Popular`, {
       Offset: offset,
       Limit: limit
     });

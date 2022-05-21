@@ -6,6 +6,7 @@ const TrackManager = require("../managers/TrackManager");
 const ArtistManager = require("../managers/ArtistManager");
 const AlbumManager = require("../managers/AlbumManager");
 const GenreManager = require("../managers/GenreManager");
+const HTTPManager = require("../managers/HTTPManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -32,7 +33,8 @@ class Client extends EventEmitter2 {
    * @param {ClientOptions} [clientOptions]
    */
   constructor (clientOptions = {}) {
-    super({ignoreErrors: true, verboseMemoryLeak: true});
+    super({ ignoreErrors: true, verboseMemoryLeak: true });
+    this._UserAgent = `Matchify.js/${require("../../package.json").version} (API Wrapper)`;
     /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {
       Managers: {
@@ -84,11 +86,14 @@ class Client extends EventEmitter2 {
       },
       Socket: {
         extraHeaders: {
-          "User-Agent": `Matchify.js/${require("../../package.json").version} (API Wrapper)`
+          "User-Agent": this._UserAgent
         },
         url: "https://matchify.org/",
       }
     }, true);
+
+    if (this.Options.Socket.url.endsWith("/"))
+      this.Options.Socket.url = this.Options.Socket.url.slice(0, -1);
 
     this.SocketManager = new SocketManager(this);
     this.UserManager = new UserManager(this);
@@ -96,11 +101,21 @@ class Client extends EventEmitter2 {
     this.ArtistManager = new ArtistManager(this);
     this.AlbumManager = new AlbumManager(this);
     this.GenreManager = new GenreManager(this);
+    this.HTTPManager = new HTTPManager(this);
   }
   Connect() {
     if (this.SocketManager.Socket.connected) throw new Error("Already connected to the socket!");
     this.SocketManager.Socket.connect()
     return;
+  }
+
+  /**
+   * @param {string} eventName 
+   * @param {{[key:string]:any}?} data
+   * @returns {Promise<any>} 
+   */
+  async AwaitResponse(eventName, data = {}, useHttp=true) {
+    return await this[useHttp ? "HTTPManager" : "SocketManager"].AwaitResponse(eventName, data);
   }
 
   Destroy() {

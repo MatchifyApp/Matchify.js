@@ -55,20 +55,20 @@ module.exports = class UserManager {
   async Fetch(userId) {
     let user = this.Cache.get(userId);
     if (user) return user;
-    const data = await this.Client.SocketManager.AwaitResponse(`Users:Get`, {
+    const data = await this.Client.AwaitResponse(`Users:Get`, {
       Id: userId
     });
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `User:${userId}:Track`,
       `User:${userId}:Update`
     ]);
-    let currentTrackData = await this.Client.SocketManager.AwaitResponse(`Users:Get:Current`, {
+    let currentTrackData = await this.Client.AwaitResponse(`Users:Get:Current`, {
       Id: userId
     });
     let genresMap = new Map();
 
     if (this.Client.Options.Managers.User.Cache.Genres) { 
-      let userGenres = await this.Client.SocketManager.AwaitResponse(`Users:Get:Genres`, {
+      let userGenres = await this.Client.AwaitResponse(`Users:Get:Genres`, {
         Id: userId
       });
       await quickForEach(userGenres, async genre => { 

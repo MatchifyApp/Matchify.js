@@ -57,7 +57,7 @@ module.exports = class TrackManager {
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `Track:${trackId}:Listener`
     ]);
-    let data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Listeners`, {
+    let data = await this.Client.AwaitResponse(`Tracks:Get:Listeners`, {
       Id: trackId,
       Offset: 0,
       Limit: Number.MAX_SAFE_INTEGER
@@ -74,7 +74,7 @@ module.exports = class TrackManager {
   async Fetch(trackId) {
     let track = this.Cache.get(trackId);
     if (track) return track;
-    const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get`, {
+    const data = await this.Client.AwaitResponse(`Tracks:Get`, {
       Id: trackId
     });
     if (data) {
@@ -122,7 +122,7 @@ module.exports = class TrackManager {
    * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date}[]>}
    */
   async FetchListeners(id, offset = 0, limit = Number.MAX_SAFE_INTEGER) { 
-    const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Listeners`, {
+    const data = await this.Client.AwaitResponse(`Tracks:Get:Listeners`, {
       Id: id,
       Offset: offset,
       Limit: limit
@@ -141,7 +141,7 @@ module.exports = class TrackManager {
    * @returns {Promise<{Track: Track, ListenersCount: number}[]>}
    */
   async FetchPopular(offset = 0, limit = 50) {
-    const data = await this.Client.SocketManager.AwaitResponse(`Tracks:Get:Popular`, {
+    const data = await this.Client.AwaitResponse(`Tracks:Get:Popular`, {
       Offset: offset,
       Limit: limit
     });

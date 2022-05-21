@@ -57,7 +57,7 @@ module.exports = class ArtistManager {
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `Artist:${artistId}:Listener`
     ]);
-    let data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Listeners`, {
+    let data = await this.Client.AwaitResponse(`Artists:Get:Listeners`, {
       Id: artistId,
       Offset: 0,
       Limit: Number.MAX_SAFE_INTEGER
@@ -74,7 +74,7 @@ module.exports = class ArtistManager {
   async Fetch(artistId) {
     let artist = this.Cache.get(artistId);
     if (artist) return artist;
-    const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get`, {
+    const data = await this.Client.AwaitResponse(`Artists:Get`, {
       Id: artistId
     });
     if (data) {
@@ -111,7 +111,7 @@ module.exports = class ArtistManager {
 * @returns {Promise<{User: import("../structures/User"), LastUpdated: Date, Track: import("../structures/Track")}[]>}
 */
   async FetchListeners(id, offset = 0, limit = Number.MAX_SAFE_INTEGER) {
-    const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Listeners`, {
+    const data = await this.Client.AwaitResponse(`Artists:Get:Listeners`, {
       Id: id,
       Offset: offset,
       Limit: limit
@@ -131,7 +131,7 @@ module.exports = class ArtistManager {
    * @returns {Promise<{Artist: Artist, ListenersCount: number}[]>}
    */
   async FetchPopular(offset = 0, limit = 50) {
-    const data = await this.Client.SocketManager.AwaitResponse(`Artists:Get:Popular`, {
+    const data = await this.Client.AwaitResponse(`Artists:Get:Popular`, {
       Offset: offset,
       Limit: limit
     });

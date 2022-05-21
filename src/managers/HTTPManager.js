@@ -20,7 +20,7 @@ module.exports = class HTTPManager {
       url: `${this.Client.Options.Socket.url}/api/v1/methods/${methodName}`,
       headers: {
         "Content-Type": "application/json",
-        "User-Agent": this.Client._UserAgent
+        ...(globalThis.navigator ? {} : {"User-Agent": this.Client._UserAgent})
       },
       data: JSON.stringify(data)
     })

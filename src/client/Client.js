@@ -86,7 +86,7 @@ class Client extends EventEmitter2 {
       },
       Socket: {
         extraHeaders: {
-          "User-Agent": this._UserAgent
+          ...(globalThis.navigator ? {} : { "User-Agent": this._UserAgent })
         },
         url: "https://matchify.org/",
       }

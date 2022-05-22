@@ -151,6 +151,27 @@ module.exports = class AlbumManager {
     });
   }
 
+  /**
+   * @param {string} id 
+   * @param {number} offset 
+   * @param {number} limit
+   * 
+   * @returns {Promise<{User:import("../structures/User"),ListenedCount:number}[]>}
+   */
+  async FetchHistory(id, offset = 0, limit = 50) {
+    const data = await this.Client.AwaitResponse(`Albums:Get:History`, {
+      Id: id,
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        User: await this.Client.UserManager.Fetch(data.Id),
+        ListenedCount: data.ListenedCount
+      };
+    });
+  }
+
   Destroy() { 
     this.Cache.clear();
   }

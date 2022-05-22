@@ -88,6 +88,29 @@ module.exports = class UserManager {
     return user;
   }
 
+  /**
+   * @param {string} id 
+   * @param {number} offset 
+   * @param {number} limit 
+   * 
+   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+   */
+  async FetchHistory(id, offset=0, limit=50) { 
+    const data = await this.Client.AwaitResponse(`Users:Get:History`, {
+      Id: id,
+      Offset: offset,
+      Limit: limit
+    });
+    return await quickMap(data, async data => {
+      return {
+        User: await this.Client.UserManager.Fetch(data.UserId),
+        Track: await this.Client.TrackManager.Fetch(data.TrackId),
+        Distance: data.Distance,
+        At: new Date(data.InsertedAt)
+      };
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

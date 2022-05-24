@@ -29,7 +29,7 @@ module.exports = class UserManager {
       let user = this.Cache.get(data.Id);
       if (!user) return;
       let track = data.TrackId ? await client.TrackManager.Fetch(data.TrackId) : null;
-      user._Patch({ CurrentPlaying: track, ListenedCount: user.ListenedCount + (data.TrackId ? 1 : 0) });
+      user._Patch({ CurrentPlaying: { Track: track, At: new Date() }, ListenedCount: user.ListenedCount + (data.TrackId ? 1 : 0) });
 
       if (track && this.Client.Options.Managers.User.Cache.Genres) {
         track.Genres.forEach(genre => { 
@@ -81,7 +81,10 @@ module.exports = class UserManager {
 
     user = new User({
       ...data,
-      CurrentPlaying: currentTrackData?.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null,
+      CurrentPlaying: {
+        Track: currentTrackData?.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null,
+        At: new Date(currentTrackData?.LastUpdated || Date.now())
+      },
       Genres: genresMap
     });
     this.Cache.set(userId, user);
@@ -109,6 +112,24 @@ module.exports = class UserManager {
         At: new Date(data.InsertedAt)
       };
     });
+  }
+
+  /**
+   * @param {string} id 
+   */
+  async FetchCurrentPlaying(id) {
+    let User = await this.Client.UserManager.Fetch(id);
+    if (!User) return;
+    let data = await this.Client.AwaitResponse(`Users:Get:Current`, {
+      Id: id
+    });
+    let Track = data?.TrackId ? await this.Client.TrackManager.Fetch(data.TrackId) : null;
+    let r = {
+      Track,
+      At: new Date(data.LastUpdated)
+    };
+    User._Patch({ CurrentPlaying: r });
+    return r;
   }
 
   Destroy() {

@@ -164,6 +164,24 @@ module.exports = class ArtistManager {
     });
   }
 
+  /**
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<import("../structures/Artist")[]>}
+   */
+  async Search(search, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Artists:Search`, {
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async id => {
+      return await this.Fetch(id);
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

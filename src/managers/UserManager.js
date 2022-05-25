@@ -132,6 +132,24 @@ module.exports = class UserManager {
     return r;
   }
 
+  /**
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<import("../structures/User")[]>}
+   */
+  async Search(search, offset=0, limit=50) {
+    let data = await this.Client.AwaitResponse(`Users:Search`, {
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async id => { 
+      return await this.Fetch(id);
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

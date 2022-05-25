@@ -190,6 +190,24 @@ module.exports = class AlbumManager {
     });
   }
 
+  /**
+   * @param {string} id 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<import("../structures/Track")[]>}
+   */
+  async FetchTracks(id, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Albums:Get:Tracks`, {
+      Id: id,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async i => {
+      return await this.Client.TrackManager.Fetch(i);
+    });
+  }
+
   Destroy() { 
     this.Cache.clear();
   }

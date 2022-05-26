@@ -24,6 +24,7 @@ class SocketSubscriptionManager {
       this.Subscriptions.add(eventName);
       e.push(eventName);
     });
+    if (!e.length) return false;
     this.Socket.emit("Subscriptions:Subscribe", {
       Subscriptions: e
     });
@@ -37,6 +38,7 @@ class SocketSubscriptionManager {
       this.Subscriptions.delete(eventName);
       e.push(eventName);
     });
+    if (!e.length) return false;
     this.Socket.emit("Subscriptions:Unsubscribe", {
       Subscriptions: e
     });

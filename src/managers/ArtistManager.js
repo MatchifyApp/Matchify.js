@@ -184,6 +184,26 @@ module.exports = class ArtistManager {
 
   /**
    * @param {string} id 
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<import("../structures/User")[]>}
+   */
+  async SearchHistory(id, search, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Artists:Search:History`, {
+      Id: id,
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async id => {
+      return await this.Client.UserManager.Fetch(id);
+    });
+  }
+
+  /**
+   * @param {string} id 
    * @param {number} offset 
    * @param {number} limit 
    * @returns {Promise<import("../structures/Track")[]>}

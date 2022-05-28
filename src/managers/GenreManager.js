@@ -45,11 +45,6 @@ module.exports = class GenreManager {
     } else {
       genre.Listeners.delete(data.UserId);
     }
-    this.Client.emit("Genre:Listener", {
-      Genre: genre,
-      User: user,
-      Listening: data.Listening
-    });
   }
 
   async _SubscribeToListeners(genreId) {

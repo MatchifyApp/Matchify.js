@@ -44,11 +44,6 @@ module.exports = class ArtistManager {
     } else {
       artist.Listeners.delete(data.UserId);
     }
-    this.Client.emit("Artist:Listener", {
-      Artist: artist,
-      User: user,
-      Listening: data.Listening
-    });
   }
 
   async _SubscribeToListeners(artistId) {

@@ -44,11 +44,6 @@ module.exports = class UserManager {
           }
         });
       }
-
-      client.emit("User:Track", {
-        User: user,
-        Track: track
-      });
     });
   }
 

@@ -1,6 +1,5 @@
 const { SocketManager } = require("../managers/SocketManager");
 const defaultify = require("stuffs/lib/defaultify");
-const ee2 = require("eventemitter2");
 const UserManager = require("../managers/UserManager");
 const TrackManager = require("../managers/TrackManager");
 const ArtistManager = require("../managers/ArtistManager");
@@ -28,7 +27,7 @@ const HTTPManager = require("../managers/HTTPManager");
  * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} [Socket]
  */
 
-class Client extends ee2.EventEmitter2 {
+class Client {
   /**
    * @param {ClientOptions} [clientOptions]
    */

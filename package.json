@@ -1,6 +1,6 @@
 {
   "name": "matchify.js",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "main": "src/index.js",
   "repository": "https://github.com/MatchifyApp/Matchify.js.git",
   "author": "Kıraç Armağan Önal <kiracarmaganonal@gmail.com>",
@@ -10,7 +10,6 @@
     "async-and-quick": "^1.0.1",
     "axios": "^0.27.2",
     "chillout": "^5.0.0",
-    "eventemitter2": "^6.4.5",
     "socket.io-client": "^4.5.0",
     "stuffs": "^0.1.14"
   },

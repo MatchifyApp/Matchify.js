@@ -45,11 +45,6 @@ module.exports = class AlbumManager {
     } else {
       album.Listeners.delete(data.UserId);
     }
-    this.Client.emit("Album:Listener", {
-      Album: album,
-      User: user,
-      Listening: data.Listening
-    });
   }
 
   async _SubscribeToListeners(albumId) {

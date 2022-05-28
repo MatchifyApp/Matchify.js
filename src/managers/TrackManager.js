@@ -44,11 +44,6 @@ module.exports = class TrackManager {
     } else {
       track.Listeners.delete(data.UserId);
     }
-    this.Client.emit("Track:Listener", {
-      Track: track,
-      User: user,
-      Listening: data.Listening
-    });
   }
   
   async _SubscribeToListeners(trackId) { 

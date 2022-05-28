@@ -32,7 +32,6 @@ class Client {
    * @param {ClientOptions} [clientOptions]
    */
   constructor (clientOptions = {}) {
-    super({ ignoreErrors: true, verboseMemoryLeak: true });
     this._UserAgent = `Matchify.js/${require("../../package.json").version} (API Wrapper)`;
     /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {

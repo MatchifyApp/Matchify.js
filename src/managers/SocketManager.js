@@ -16,7 +16,9 @@ class SocketManager {
     });
     this.SubscriptionManager = new SocketSubscriptionManager(this);
     this.Events = new BasicEventEmitter();
-
+    if (this.Client.LocalUser?.Token) {
+      this.Client.LoginInProcess = true;
+    }
     this.Socket.on("connect", async () => { 
       this.Events.emit("connect");
       if (!this.Client.LocalUser?.Token) return;
@@ -27,6 +29,11 @@ class SocketManager {
       } catch (e) {
         this.Events.emit("login_error", e);
       }
+      this.Client.LoginInProcess = false;
+    });
+
+    this.Socket.on("disconnect", () => {
+      this.Client.LocalUser = null;
     });
 
     let ssePopularMap = [

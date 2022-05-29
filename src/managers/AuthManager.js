@@ -16,7 +16,7 @@ module.exports = class AuthManager {
   /**
    * @param {string} Code 
    * @param {string} State 
-   * @returns {Token: string, Email: string, User: import("../structures/User")}
+   * @returns {{Token: string, Email: string, User: import("../structures/User")}}
    */
   async Callback(Code, State) {
     let resUser = await this.Client.AwaitResponse("LocalUser:Auth:Callback", {
@@ -31,6 +31,11 @@ module.exports = class AuthManager {
     }
   }
 
+  /**
+   * 
+   * @param {string} Token 
+   * @returns {{Token: string, Email: string, User: import("../structures/User")}}
+   */
   async Login(Token) {
     let resUser = await this.Client.AwaitResponse("LocalUser:Auth:Login", {
       Token

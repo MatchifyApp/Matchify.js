@@ -104,15 +104,28 @@ class Client {
 
     /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
     this.LocalUser = null;
+
+    this.LoginInProcess = false;
   }
   /**
-   * @param {string} Token
+   * @param {string?} Token
    */
   async Connect(Token) {
     if (this.SocketManager.Socket.connected) throw new Error("Already connected to the socket!");
-    this.LocalUser = { Token };
+    this.LocalUser = { Token, Email: "", User: null };
     this.SocketManager.Socket.connect();
     return;
+  }
+
+  /**
+   * @param {string} Token
+   */
+  async Login(Token) {
+    if (this.LocalUser) throw new Error("Already logged in!");
+    this.LoginInProcess = true;
+    let u = await this.AuthManager.Login(Token);
+    this.LocalUser = u;
+    this.LoginInProcess = false;
   }
 
   /**

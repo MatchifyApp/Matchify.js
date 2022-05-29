@@ -17,6 +17,18 @@ class SocketManager {
     this.SubscriptionManager = new SocketSubscriptionManager(this);
     this.Events = new BasicEventEmitter();
 
+    this.Socket.on("connect", async () => { 
+      this.Events.emit("connect");
+      if (!this.Client.LocalUser?.Token) return;
+      try {
+        let u = await this.Client.AuthManager.Login(this.Client.LocalUser.Token);
+        this.Client.LocalUser = u;
+        this.Events.emit("login", u);
+      } catch (e) {
+        this.Events.emit("login_error", e);
+      }
+    });
+
     let ssePopularMap = [
       ["SSE:PopularArtists", "ArtistManager", "Artist"],
       ["SSE:PopularAlbums", "AlbumManager", "Album"],

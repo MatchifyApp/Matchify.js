@@ -6,6 +6,7 @@ const ArtistManager = require("../managers/ArtistManager");
 const AlbumManager = require("../managers/AlbumManager");
 const GenreManager = require("../managers/GenreManager");
 const HTTPManager = require("../managers/HTTPManager");
+const AuthManager = require("../managers/AuthManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -23,7 +24,6 @@ const HTTPManager = require("../managers/HTTPManager");
 /**
  * @typedef {Object} ClientOptions
  * @property {ManagerOptions} [Managers]
- * @property {{Token: string}} [Authorization]
  * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} [Socket]
  */
 
@@ -100,10 +100,18 @@ class Client {
     this.AlbumManager = new AlbumManager(this);
     this.GenreManager = new GenreManager(this);
     this.HTTPManager = new HTTPManager(this);
+    this.AuthManager = new AuthManager(this);
+
+    /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
+    this.LocalUser = null;
   }
-  Connect() {
+  /**
+   * @param {string} Token
+   */
+  async Connect(Token) {
     if (this.SocketManager.Socket.connected) throw new Error("Already connected to the socket!");
-    this.SocketManager.Socket.connect()
+    this.LocalUser = { Token };
+    this.SocketManager.Socket.connect();
     return;
   }
 
@@ -123,6 +131,7 @@ class Client {
     this.ArtistManager.Destroy();
     this.AlbumManager.Destroy();
     this.GenreManager.Destroy();
+    this.User = null;
   }
 
 }

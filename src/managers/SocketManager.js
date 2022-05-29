@@ -1,3 +1,5 @@
+const { quickMap } = require("async-and-quick");
+const BasicEventEmitter = require("../lib/BasicEventEmitter");
 const { SocketSubscriptionManager } = require("./SocketSubscriptionManager");
 const io = require("socket.io-client").io;
 
@@ -13,6 +15,25 @@ class SocketManager {
       autoConnect: false
     });
     this.SubscriptionManager = new SocketSubscriptionManager(this);
+    this.Events = new BasicEventEmitter();
+
+    let ssePopularMap = [
+      ["SSE:PopularArtists", "ArtistManager", "Artist"],
+      ["SSE:PopularAlbums", "AlbumManager", "Album"],
+      ["SSE:PopularTracks", "TrackManager", "Track"],
+      ["SSE:PopularGenres", "GenreManager", "Genre"],
+    ]
+
+    ssePopularMap.forEach(([eventName, managerName, prop]) => { 
+      this.Socket.on(eventName, async (l) => {
+        this.Events.emit(eventName, await quickMap(l, async (d) => {
+          return {
+            [prop]: await this.Client[managerName].Fetch(d.Id),
+            ListenersCount: d.ListenersCount
+          }
+        }));
+      });
+    });
   }
 
   /**

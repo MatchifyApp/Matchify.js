@@ -21,7 +21,7 @@ class SocketManager {
       ["SSE:PopularArtists", "ArtistManager", "Artist"],
       ["SSE:PopularAlbums", "AlbumManager", "Album"],
       ["SSE:PopularTracks", "TrackManager", "Track"],
-      ["SSE:PopularGenres", "GenreManager", "Genre"],
+      // ["SSE:PopularGenres", "GenreManager", "Genre"],
     ]
 
     ssePopularMap.forEach(([eventName, managerName, prop]) => { 

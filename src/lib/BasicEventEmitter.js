@@ -20,7 +20,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = class BasicEventEmitter {
+export class BasicEventEmitter {
 
   constructor () {
     /** @type {Map<string, Map<(...args: any[])=>void, {once: boolean}>>} */
@@ -46,7 +46,7 @@ module.exports = class BasicEventEmitter {
    */
   once(eventName, listener) {
     this._prepareListenersMap(eventName);
-    this.listeners.get(eventName).set(listener, { once: true });
+    this.listeners.get(eventName)?.set(listener, { once: true });
   }
 
   /**
@@ -55,8 +55,8 @@ module.exports = class BasicEventEmitter {
    */
   off(eventName, listener) {
     if (!eventName) return this.listeners = new Map();
-    if (!listener) return this.listeners.delete(eventName);
-    this.listeners.get(eventName).delete(listener)
+    if (!listener) return this.listeners?.delete(eventName);
+    this.listeners.get(eventName)?.delete(listener)
   }
 
   /**
@@ -67,7 +67,7 @@ module.exports = class BasicEventEmitter {
     if (!this.listeners.has(eventName)) return;
     let eventMap = this.listeners.get(eventName);
     eventMap.forEach(({ once }, listener) => {
-      if (once) eventMap.delete(listener);
+      if (once) eventMap?.delete(listener);
       listener(...args);
     });
   }

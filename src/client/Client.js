@@ -7,6 +7,7 @@ const AlbumManager = require("../managers/AlbumManager");
 const GenreManager = require("../managers/GenreManager");
 const HTTPManager = require("../managers/HTTPManager");
 const AuthManager = require("../managers/AuthManager");
+const LocalUserManager = require("../managers/LocalUserManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -101,6 +102,7 @@ class Client {
     this.GenreManager = new GenreManager(this);
     this.HTTPManager = new HTTPManager(this);
     this.AuthManager = new AuthManager(this);
+    this.LocalUserManager = new LocalUserManager(client);
 
     /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
     this.LocalUser = null;

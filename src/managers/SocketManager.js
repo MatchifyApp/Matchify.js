@@ -36,14 +36,14 @@ class SocketManager {
       this.Client.LocalUser = null;
     });
 
-    let ssePopularMap = [
+    let sseListenersMap = [
       ["SSE:PopularArtists", "ArtistManager", "Artist"],
       ["SSE:PopularAlbums", "AlbumManager", "Album"],
       ["SSE:PopularTracks", "TrackManager", "Track"],
-      // ["SSE:PopularGenres", "GenreManager", "Genre"],
+      ["SSE:RandomActiveTracks", "TrackManager", "Track"],
     ]
 
-    ssePopularMap.forEach(([eventName, managerName, prop]) => { 
+    sseListenersMap.forEach(([eventName, managerName, prop]) => { 
       this.Socket.on(eventName, async (l) => {
         this.Events.emit(eventName, await quickMap(l, async (d) => {
           return {

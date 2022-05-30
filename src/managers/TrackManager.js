@@ -170,6 +170,23 @@ module.exports = class TrackManager {
   }
 
   /**
+   * @param {number} Amount 
+   * @returns {Promise<{Track: import("../structures/Track"), ListenerCount:number}[]>}
+   */
+  async FetchRandomActive(Amount = 50) {
+    const data = await this.Client.AwaitResponse(`Tracks:Get:Active:Random`, {
+      Amount
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        Track: await this.Client.TrackManager.Fetch(i.Id),
+        ListenerCount: i.ListenedCount
+      };
+    });
+  }
+
+  /**
    * @param {string} search 
    * @param {number} offset 
    * @param {number} limit 

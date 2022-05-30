@@ -181,7 +181,7 @@ module.exports = class TrackManager {
     return await quickMap(data, async i => {
       return {
         Track: await this.Client.TrackManager.Fetch(i.Id),
-        ListenerCount: i.ListenedCount
+        ListenersCount: i.ListenersCount
       };
     });
   }

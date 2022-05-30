@@ -102,7 +102,7 @@ class Client {
     this.GenreManager = new GenreManager(this);
     this.HTTPManager = new HTTPManager(this);
     this.AuthManager = new AuthManager(this);
-    this.LocalUserManager = new LocalUserManager(client);
+    this.LocalUserManager = new LocalUserManager(this);
 
     /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
     this.LocalUser = null;

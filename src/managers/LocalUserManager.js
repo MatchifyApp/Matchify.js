@@ -15,11 +15,12 @@ module.exports = class LocalUserManager {
    * 
    * @returns {Promise<{MatchPercents: number, User: import("../structures/User")}[]>}
    */
-  async FetchMatches(Offset, Limit, Sorted=false) {
+  async FetchMatches(Offset, Limit, Sorted=false, LowerLimit = 0.49) {
     let data = await this.Client.AwaitResponse("LocalUser:Get:Matches", {
       Offset,
       Limit,
-      Sorted
+      Sorted,
+      LowerLimit
     }, false);
 
     return await quickMap(data, async i => {

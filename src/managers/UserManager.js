@@ -73,6 +73,7 @@ module.exports = class UserManager {
           Count: genre.Count
         });
       });
+      userGenres = new Map([...userGenres.entries()].sort((a, b) => b[1].Count - a[1].Count));
     }
 
     user = new User({

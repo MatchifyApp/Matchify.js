@@ -43,6 +43,7 @@ module.exports = class UserManager {
             });
           }
         });
+        track._Patch({ Genres: new Map([...track.Genres.entries()].sort((a, b) => b[1].Count - a[1].Count)) });
       }
     });
   }

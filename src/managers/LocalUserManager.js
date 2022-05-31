@@ -30,5 +30,16 @@ module.exports = class LocalUserManager {
       };
     });
   }
+
+  /**
+   * @returns {Promise<{Track:import("../structures/Track"), Genre:import("../structures/Genre")}>}
+   */
+  async FetchSongSuggestion() {
+    let data = await this.Client.AwaitResponse("LocalUser:Get:SongSuggestion", {}, false);
+    return {
+      Track: await this.Client.TrackManager.Fetch(data.TrackId),
+      Genre: await this.Client.GenreManager.Fetch(data.GenreId)
+    }
+  }
   
 }

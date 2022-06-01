@@ -167,6 +167,29 @@ module.exports = class GenreManager {
     });
   }
 
+  /**
+ * @param {string} id 
+ * @param {string} search 
+ * @param {number} offset 
+ * @param {number} limit 
+ * @returns {Promise<{User: import("../structures/User"), ListenedCount: number}[]>}
+ */
+  async SearchHistory(id, search, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Genres:Search:History`, {
+      Id: id,
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Client.UserManager.Fetch(i.Id),
+        ListenedCount: i.ListenedCount
+      }
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

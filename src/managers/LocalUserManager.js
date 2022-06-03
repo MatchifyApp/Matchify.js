@@ -41,5 +41,13 @@ module.exports = class LocalUserManager {
       Genre: await this.Client.GenreManager.Fetch(data.GenreId)
     }
   }
+
+  /**
+   * @param {boolean} ClearData 
+   */
+  async SelfBlock(ClearData = false) {
+    await this.Client.AwaitResponse("LocalUser:SelfBlock", { ClearData }, false);
+    return true;
+  }
   
 }

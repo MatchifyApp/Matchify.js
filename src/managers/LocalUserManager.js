@@ -47,6 +47,7 @@ module.exports = class LocalUserManager {
    */
   async SelfBlock(ClearData = false) {
     await this.Client.AwaitResponse("LocalUser:SelfBlock", { ClearData }, false);
+    this.Client.LocalUser = null;
     return true;
   }
   

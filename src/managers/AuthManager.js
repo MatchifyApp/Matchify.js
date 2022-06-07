@@ -18,18 +18,19 @@ module.exports = class AuthManager {
   /**
    * @param {string} Code 
    * @param {string} State 
-   * @returns {{Token: string, Email: string, User: import("../structures/User")}}
+   * @returns {{Token: string, Email: string, User: import("../structures/User"), IsSelfBlocked: boolean}}
    */
   async Callback(Code, State) {
-    let resUser = await this.Client.AwaitResponse("LocalUser:Auth:Callback", {
+    let data = await this.Client.AwaitResponse("LocalUser:Auth:Callback", {
       Code,
       State
     }, false);
 
     return {
-      Token: resUser.Token,
-      Email: resUser.Email,
-      User: await this.Client.UserManager.Fetch(resUser.Id)
+      Token: data.User.Token,
+      Email: data.User.Email,
+      IsSelfBlocked: data.IsSelfBlocked,
+      User: await this.Client.UserManager.Fetch(data.User.Id)
     }
   }
 

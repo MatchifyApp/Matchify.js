@@ -51,4 +51,8 @@ module.exports = class LocalUserManager {
     return true;
   }
   
+  async UnSelfBlock() {
+    await this.Client.AwaitResponse("LocalUser:UnSelfBlock", {}, false);
+    return true;
+  }
 }

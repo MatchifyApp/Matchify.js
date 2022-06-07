@@ -51,8 +51,11 @@ module.exports = class LocalUserManager {
     return true;
   }
   
-  async UnSelfBlock() {
-    await this.Client.AwaitResponse("LocalUser:UnSelfBlock", {}, false);
+  /**
+   * @param {string} Token 
+   */
+  async UnSelfBlock(Token) {
+    await this.Client.AwaitResponse("LocalUser:UnSelfBlock", { Token }, false);
     return true;
   }
 }

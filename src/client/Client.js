@@ -26,6 +26,7 @@ const LocalUserManager = require("../managers/LocalUserManager");
  * @typedef {Object} ClientOptions
  * @property {ManagerOptions} [Managers]
  * @property {Partial<import("socket.io-client").ManagerOptions & import("socket.io-client").SocketOptions & {url:string}>} [Socket]
+ * @property {boolean} UseHTTP
  */
 
 class Client {
@@ -83,6 +84,7 @@ class Client {
           }
         }
       },
+      UseHTTP: false,
       Socket: {
         extraHeaders: {
           ...(globalThis.navigator ? {} : { "User-Agent": this._UserAgent })
@@ -135,7 +137,8 @@ class Client {
    * @param {{[key:string]:any}?} data
    * @returns {Promise<any>} 
    */
-  async AwaitResponse(eventName, data = {}, useHttp=true) {
+  async AwaitResponse(eventName, data = {}, useHttp) {
+    useHttp = useHttp ?? this.Options.UseHTTP;
     return await this[useHttp ? "HTTPManager" : "SocketManager"].AwaitResponse(eventName, data);
   }
 

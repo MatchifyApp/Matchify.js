@@ -112,6 +112,27 @@ module.exports = class UserManager {
   }
 
   /**
+   * @param {string} Id 
+   * @param {number} Offset 
+   * @param {number} Limit 
+   * @returns {Promise<{ Track: import("../structures/Track"), ListenedCount: number }[]>}
+   */
+  async FetchTopTracks(Id, Offset=0, Limit=50) { 
+    const data = await this.Client.AwaitResponse(`Users:Get:Top:Tracks`, {
+      Id,
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => { 
+      return {
+        Track: await this.Client.TrackManager.Fetch(i.Id),
+        ListenedCount: i.ListenedCount
+      }
+    });
+  }
+
+  /**
    * @param {string} id 
    */
   async FetchCurrentPlaying(id) {

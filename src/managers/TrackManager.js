@@ -131,6 +131,17 @@ module.exports = class TrackManager {
   }
 
   /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchListenersCount(id) {
+    const data = await this.Client.AwaitResponse(`Tracks:Get:Listeners:Count`, {
+      Id: id
+    });
+    return data;
+  }
+
+  /**
    * @param {number} offset 
    * @param {number} limit 
    * @returns {Promise<{Track: Track, ListenersCount: number}[]>}

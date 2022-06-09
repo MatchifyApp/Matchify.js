@@ -129,6 +129,17 @@ module.exports = class AlbumManager {
   }
 
   /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchListenersCount(id) {
+    const data = await this.Client.AwaitResponse(`Albums:Get:Listeners:Count`, {
+      Id: id
+    });
+    return data;
+  }
+
+  /**
  * @param {number} offset 
  * @param {number} limit 
  * @returns {Promise<{Album: Album, ListenersCount: number}[]>}

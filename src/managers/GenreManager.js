@@ -150,6 +150,17 @@ module.exports = class GenreManager {
   }
 
   /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchListenersCount(id) {
+    const data = await this.Client.AwaitResponse(`Genres:Get:Listeners:Count`, {
+      Id: id
+    });
+    return data;
+  }
+
+  /**
    * @param {string} search 
    * @param {number} offset 
    * @param {number} limit 

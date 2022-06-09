@@ -120,6 +120,17 @@ module.exports = class ArtistManager {
     });
   }
 
+    /**
+    * @param {string} id 
+    * @returns {Promise<number>}
+    */
+    async FetchListenersCount(id) {
+      const data = await this.Client.AwaitResponse(`Artists:Get:Listeners:Count`, {
+        Id: id
+      });
+      return data;
+    }
+
   /**
    * @param {number} offset 
    * @param {number} limit 

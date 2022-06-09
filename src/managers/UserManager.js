@@ -144,7 +144,7 @@ module.exports = class UserManager {
     let Track = data?.TrackId ? await this.Client.TrackManager.Fetch(data.TrackId) : null;
     let r = {
       Track,
-      At: new Date(data.LastUpdated)
+      At: new Date(data?.LastUpdated || Date.now())
     };
     User._Patch({ CurrentPlaying: r });
     return r;

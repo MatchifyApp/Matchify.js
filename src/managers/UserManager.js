@@ -168,6 +168,31 @@ module.exports = class UserManager {
     });
   }
 
+  /**
+   * @param {string} id
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+   */
+  async SearchHistory(id, search, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Users:Search:History`, {
+      Id: id,
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Client.UserManager.Fetch(i.UserId),
+        Track: await this.Client.TrackManager.Fetch(i.TrackId),
+        Distance: i.Distance,
+        At: new Date(i.InsertedAt)
+      };
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

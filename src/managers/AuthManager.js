@@ -9,7 +9,7 @@ module.exports = class AuthManager {
    * @param {boolean} Desktop 
    * @returns {string}
    */
-  async GetAuthURL(Host, Desktop=false) {
+  async FetchAuthURL(Host, Desktop=false) {
     return await this.Client.AwaitResponse("LocalUser:Auth:Get:Url", {
       Host,
       Desktop

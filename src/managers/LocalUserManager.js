@@ -32,6 +32,18 @@ module.exports = class LocalUserManager {
   }
 
   /**
+   * @param {string} Id
+   * @returns {Promise<number>}
+   */
+  async FetchMatchPercent(Id) {
+    let data = await this.Client.AwaitResponse("LocalUser:Get:MatchPercent", {
+      Id
+    }, false);
+
+    return data;
+  }
+
+  /**
    * @returns {Promise<{Track:import("../structures/Track"), Genre:import("../structures/Genre")}>}
    */
   async FetchSongSuggestion() {

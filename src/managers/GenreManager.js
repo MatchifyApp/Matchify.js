@@ -201,6 +201,55 @@ module.exports = class GenreManager {
     });
   }
 
+  /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchTrackCount(id) {
+    let data = await this.Client.AwaitResponse(`Genres:Get:Count:Track`, {
+      Id: id
+    });
+
+    return data;
+  }
+
+  /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchAlbumCount(id) {
+    let data = await this.Client.AwaitResponse(`Genres:Get:Count:Album`, {
+      Id: id
+    });
+
+    return data;
+  }
+
+
+  /**
+  * @param {string} id 
+  * @returns {Promise<number>}
+  */
+  async FetchArtistCount(id) {
+    let data = await this.Client.AwaitResponse(`Genres:Get:Count:Track`, {
+      Id: id
+    });
+
+    return data;
+  }
+
+  /**
+  * @param {string} id 
+  * @returns {Promise<import("../structures/Artist")>}
+  */
+  async FetchRandomArtist(id) {
+    let data = await this.Client.AwaitResponse(`Genres:Get:Random:Artist`, {
+      Id: id
+    });
+
+    return this.Client.ArtistManager.Fetch(data);
+  }
+
   Destroy() {
     this.Cache.clear();
   }

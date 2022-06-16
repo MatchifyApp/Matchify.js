@@ -40,12 +40,13 @@ class SocketManager {
       ["SSE:PopularArtists", "ArtistManager", "Artist"],
       ["SSE:PopularAlbums", "AlbumManager", "Album"],
       ["SSE:PopularTracks", "TrackManager", "Track"],
+      ["SSE:PopularGenres", "GenreManager", "Genre"],
       ["SSE:RandomActiveTracks", "TrackManager", "Track"],
     ]
 
     sseListenersMap.forEach(([eventName, managerName, prop]) => { 
       this.Socket.on(eventName, async (l) => {
-        this.Events.emit(eventName, await quickMap(l, async (d) => {
+        this.Events.emit(eventName, await quickMap(l.filter(i=>i.Id), async (d) => {
           return {
             [prop]: await this.Client[managerName].Fetch(d.Id),
             ListenersCount: d.ListenersCount

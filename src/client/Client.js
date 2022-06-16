@@ -8,6 +8,7 @@ const GenreManager = require("../managers/GenreManager");
 const HTTPManager = require("../managers/HTTPManager");
 const AuthManager = require("../managers/AuthManager");
 const LocalUserManager = require("../managers/LocalUserManager");
+const GuildManager = require("../managers/GuildManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -20,6 +21,7 @@ const LocalUserManager = require("../managers/LocalUserManager");
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Artist]
  * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean } }} [User]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Genre]
+ * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Guild]
  */
 
 /**
@@ -82,6 +84,15 @@ class Client {
           Cache: {
             Listeners: false
           }
+        },
+        Guild: {
+          LRU: {
+            maxAge: 3600000,
+            maxSize: 16384
+          },
+          Cache: {
+            Listeners: false
+          }
         }
       },
       UseHTTP: false,
@@ -105,6 +116,7 @@ class Client {
     this.HTTPManager = new HTTPManager(this);
     this.AuthManager = new AuthManager(this);
     this.LocalUserManager = new LocalUserManager(this);
+    this.GuildManager = new GuildManager(this);
 
     /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
     this.LocalUser = null;
@@ -149,7 +161,7 @@ class Client {
     this.ArtistManager.Destroy();
     this.AlbumManager.Destroy();
     this.GenreManager.Destroy();
-    this.User = null;
+    this.LocalUser = null;
   }
 
 }

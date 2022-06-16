@@ -193,6 +193,27 @@ module.exports = class UserManager {
     });
   }
 
+  /**
+   * @param {string} id
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<{Guild: import("../structures/Guild"), User: import("../structures/User"), DisplayName: number}[]>}
+   */
+  async FetchMembers(id) {
+    let data = await this.Client.AwaitResponse(`Users:Get:Members`, {
+      Id: id
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Client.UserManager.Fetch(i.UserId),
+        Guild: await this.Client.GuildManager.Fetch(i.GuildId),
+        DisplayName: i.DisplayName
+      };
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

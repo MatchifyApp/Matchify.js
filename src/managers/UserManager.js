@@ -195,9 +195,6 @@ module.exports = class UserManager {
 
   /**
    * @param {string} id
-   * @param {string} search 
-   * @param {number} offset 
-   * @param {number} limit 
    * @returns {Promise<{Guild: import("../structures/Guild"), User: import("../structures/User"), DisplayName: number}[]>}
    */
   async FetchMembers(id) {

@@ -195,11 +195,15 @@ module.exports = class UserManager {
 
   /**
    * @param {string} id
+   * @param {number} offset
+   * @param {number} limit
    * @returns {Promise<{Guild: import("../structures/Guild"), User: import("../structures/User"), DisplayName: number}[]>}
    */
-  async FetchMembers(id) {
+  async FetchMembers(id, offset = 0, limit = 50) {
     let data = await this.Client.AwaitResponse(`Users:Get:Members`, {
-      Id: id
+      Id: id,
+      Offset: offset,
+      Limit: limit
     });
 
     return await quickMap(data, async i => {

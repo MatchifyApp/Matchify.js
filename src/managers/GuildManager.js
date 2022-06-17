@@ -140,6 +140,24 @@ module.exports = class GuildManager {
     });
   }
 
+  /**
+   * @param {string} search 
+   * @param {number} offset 
+   * @param {number} limit 
+   * @returns {Promise<import("../structures/Guild")[]>}
+   */
+  async Search(search, offset = 0, limit = 50) {
+    let data = await this.Client.AwaitResponse(`Guilds:Search`, {
+      Search: search,
+      Offset: offset,
+      Limit: limit
+    });
+
+    return await quickMap(data, async id => {
+      return await this.Fetch(id);
+    });
+  }
+
   Destroy() {
     this.Cache.clear();
   }

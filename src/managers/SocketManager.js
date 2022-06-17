@@ -41,6 +41,7 @@ class SocketManager {
       ["SSE:PopularAlbums", "AlbumManager", "Album"],
       ["SSE:PopularTracks", "TrackManager", "Track"],
       ["SSE:PopularGenres", "GenreManager", "Genre"],
+      ["SSE:PopularGuilds", "GuildManager", "Guild"],
       ["SSE:RandomActiveTracks", "TrackManager", "Track"],
     ]
 

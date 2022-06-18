@@ -20,7 +20,7 @@ export declare interface QuickLRUOptions<KeyType, ValueType> {
   onEviction?: (key: KeyType, value: ValueType) => void;
 }
 
-export class QuickLRU<KeyType, ValueType> extends Map implements Iterable<[KeyType, ValueType]> {
+export declare class QuickLRU<KeyType, ValueType> extends Map implements Iterable<[KeyType, ValueType]> {
   /**
   The stored item count.
   */
@@ -106,4 +106,5 @@ export class QuickLRU<KeyType, ValueType> extends Map implements Iterable<[KeyTy
   entriesDescending(): IterableIterator<[KeyType, ValueType]>;
 }
 
+//@ts-ignore
 export = QuickLRU;

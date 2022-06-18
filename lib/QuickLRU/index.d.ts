@@ -1,4 +1,4 @@
-export interface QuickLRUOptions<KeyType, ValueType> {
+export declare interface QuickLRUOptions<KeyType, ValueType> {
   /**
   The maximum number of milliseconds an item should remain in the cache.
   @default Infinity

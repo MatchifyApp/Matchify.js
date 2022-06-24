@@ -9,10 +9,11 @@ declare class LocalUserManager {
      * @param {number} Offset
      * @param {number} Limit
      * @param {boolean} Sorted
+     * @param {number} TopGenreLimit
      *
      * @returns {Promise<{MatchPercents: number, User: import("../structures/User")}[]>}
      */
-    FetchMatches(Offset: number, Limit: number, Sorted?: boolean, LowerPoint?: number): Promise<{
+    FetchMatches(Offset: number, Limit: number, Sorted?: boolean, LowerPoint?: number, TopGenreLimit?: number): Promise<{
         MatchPercents: number;
         User: import("../structures/User");
     }[]>;

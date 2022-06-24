@@ -1,6 +1,6 @@
 {
   "name": "matchify.js",
-  "version": "0.0.82",
+  "version": "0.0.84",
   "main": "src/index.js",
   "repository": "https://github.com/MatchifyApp/Matchify.js.git",
   "author": "Kıraç Armağan Önal <kiracarmaganonal@gmail.com>",
@@ -15,9 +15,10 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
-    "@types/node": "^17.0.33"
+    "@types/node": "^17.0.33",
+    "recursive-readdir": "^2.2.2"
   },
   "scripts": {
-    "prepublishOnly": "tsc --allowJs -m commonjs --emitDeclarationOnly -d src/index.js"
+    "prepublishOnly": "node ./beforePublish.js"
   }
 }

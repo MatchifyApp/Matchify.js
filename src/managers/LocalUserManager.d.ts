@@ -5,6 +5,7 @@ declare class LocalUserManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
+    LikeManager: LocalUserLikeManager;
     /**
      * @param {number} Offset
      * @param {number} Limit
@@ -38,3 +39,4 @@ declare class LocalUserManager {
      */
     UnSelfBlock(Token: string): Promise<boolean>;
 }
+import LocalUserLikeManager = require("./LocalUserLikeManager");

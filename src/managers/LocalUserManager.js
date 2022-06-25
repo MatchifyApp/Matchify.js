@@ -1,4 +1,5 @@
 const { quickMap } = require("async-and-quick");
+const LocalUserLikeManager = require("./LocalUserLikeManager");
 
 module.exports = class LocalUserManager {
   /**
@@ -6,6 +7,8 @@ module.exports = class LocalUserManager {
    */
   constructor (client) { 
     this.Client = client;
+
+    this.LikeManager = new LocalUserLikeManager(this);
   }
 
   /**

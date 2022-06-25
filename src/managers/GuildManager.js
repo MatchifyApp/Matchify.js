@@ -83,7 +83,10 @@ module.exports = class GuildManager {
   async Import(data) {
     let guild = this.Cache.get(data.Id);
     if (guild) return guild;
-    guild = new Guild(data);
+    guild = new Guild({
+      Owner: await this.Client.UserManager.Fetch(data.OwnerId),
+      ...data
+    });
     this.Cache.set(guild.Id, guild);
     await this._SubscribeToListeners(guild.Id);
     return guild;

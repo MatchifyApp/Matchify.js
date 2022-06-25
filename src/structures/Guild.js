@@ -10,8 +10,8 @@ module.exports = class Guild {
     this.Name = data.Name ?? this.Name;
     /** @type {string} */
     this.Icon = data.Icon ?? this.Icon;
-    /** @type {string} */
-    this.OwnerId = data.OwnerId ?? this.OwnerId;
+    /** @type {import("./User")} */
+    this.Owner = data.Owner ?? this.Owner;
     /** @type {string} */
     this.Banner = data.Banner ?? this.Banner;
     /** @type {string} */

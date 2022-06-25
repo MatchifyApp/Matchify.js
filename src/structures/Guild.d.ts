@@ -8,8 +8,8 @@ declare class Guild {
     Name: string;
     /** @type {string} */
     Icon: string;
-    /** @type {string} */
-    OwnerId: string;
+    /** @type {import("./User")} */
+    Owner: import("./User");
     /** @type {string} */
     Banner: string;
     /** @type {string} */

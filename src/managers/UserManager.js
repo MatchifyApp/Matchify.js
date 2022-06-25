@@ -15,7 +15,8 @@ module.exports = class UserManager {
       onEviction(key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `User:${key}:Track`,
-          `User:${key}:Update`
+          `User:${key}:Update`,
+          `User:${key}:Increment`
         ]);
       }
     });
@@ -46,6 +47,14 @@ module.exports = class UserManager {
         track._Patch({ Genres: new Map([...track.Genres.entries()].sort((a, b) => b[1].Count - a[1].Count)) });
       }
     });
+
+    this.Client.SocketManager.Socket.on("User:Increment", async data => {
+      let item = this.Cache.get(data.Id);
+      if (!item) return;
+      item._Patch({
+        [data.What]: item[data.What] + data.Count
+      });
+    });
   }
 
   async Fetch(userId) {
@@ -56,7 +65,8 @@ module.exports = class UserManager {
     });
     this.Client.SocketManager.SubscriptionManager.Subscribe([
       `User:${userId}:Track`,
-      `User:${userId}:Update`
+      `User:${userId}:Update`,
+      `User:${userId}:Increment`
     ]);
     let currentTrackData = await this.Client.AwaitResponse(`Users:Get:Current`, {
       Id: userId

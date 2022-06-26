@@ -115,6 +115,29 @@ module.exports = class GuildManager {
   }
 
   /**
+* @param {string} Id 
+* @param {number} Offset 
+* @param {number} Limit 
+* @returns {Promise<{ User: import("../structures/User"), Guild: import("../structures/Guild"), At: Date, Id: string }[]>}
+*/
+  async FetchLikes(Id, Offset = 0, Limit = 50) {
+    const data = await this.Client.AwaitResponse(`Guilds:Get:Likes`, {
+      Id,
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Fetch(i.UserId),
+        Guild: await this.Fetch(i.GuildId),
+        At: new Date(i.InsertedAt),
+        Id: i.Id
+      }
+    });
+  }
+
+  /**
   * @param {string} id 
   * @returns {Promise<number>}
   */

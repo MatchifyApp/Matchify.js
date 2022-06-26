@@ -140,6 +140,29 @@ module.exports = class AlbumManager {
   }
 
   /**
+  * @param {string} Id 
+  * @param {number} Offset 
+  * @param {number} Limit 
+  * @returns {Promise<{ User: import("../structures/User"), Album: import("../structures/Album"), At: Date, Id: string }[]>}
+  */
+  async FetchLikes(Id, Offset = 0, Limit = 50) {
+    const data = await this.Client.AwaitResponse(`Albums:Get:Likes`, {
+      Id,
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Fetch(i.UserId),
+        Album: await this.Fetch(i.AlbumId),
+        At: new Date(i.InsertedAt),
+        Id: i.Id
+      }
+    });
+  }
+
+  /**
  * @param {number} offset 
  * @param {number} limit 
  * @returns {Promise<{Album: Album, ListenersCount: number}[]>}

@@ -143,6 +143,29 @@ module.exports = class UserManager {
   }
 
   /**
+  * @param {string} Id 
+  * @param {number} Offset 
+  * @param {number} Limit 
+  * @returns {Promise<{ User: import("../structures/User"), TargetUser: import("../structures/User"), At: Date, Id: string }[]>}
+  */
+  async FetchLikes(Id, Offset = 0, Limit = 50) {
+    const data = await this.Client.AwaitResponse(`Users:Get:Likes`, {
+      Id,
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Fetch(i.UserId),
+        TargetUser: await this.Fetch(i.TargetUserId),
+        At: new Date(i.InsertedAt),
+        Id: i.Id
+      }
+    });
+  }
+
+  /**
    * @param {string} id 
    */
   async FetchCurrentPlaying(id) {

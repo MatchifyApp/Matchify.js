@@ -111,6 +111,29 @@ module.exports = class TrackManager {
   }
 
   /**
+  * @param {string} Id 
+  * @param {number} Offset 
+  * @param {number} Limit 
+  * @returns {Promise<{ User: import("../structures/User"), Track: import("../structures/Track"), At: Date, Id: string }[]>}
+  */
+  async FetchLikes(Id, Offset = 0, Limit = 50) {
+    const data = await this.Client.AwaitResponse(`Tracks:Get:Likes`, {
+      Id,
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        User: await this.Fetch(i.UserId),
+        Track: await this.Fetch(i.TrackId),
+        At: new Date(i.InsertedAt),
+        Id: i.Id
+      }
+    });
+  }
+
+  /**
    * @param {string} id 
    * @param {number} offset 
    * @param {number} limit 

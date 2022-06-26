@@ -12,6 +12,18 @@ declare class ArtistManager {
     Fetch(artistId: any): Promise<Artist>;
     Import(data: any): Promise<Artist>;
     /**
+  * @param {string} Id
+  * @param {number} Offset
+  * @param {number} Limit
+  * @returns {Promise<{ User: import("../structures/User"), Artist: import("../structures/Artist"), At: Date, Id: string }[]>}
+  */
+    FetchLikes(Id: string, Offset?: number, Limit?: number): Promise<{
+        User: import("../structures/User");
+        Artist: import("../structures/Artist");
+        At: Date;
+        Id: string;
+    }[]>;
+    /**
   * @param {string} id
   * @param {number} offset
   * @param {number} limit

@@ -28,6 +28,18 @@ declare class AlbumManager {
     */
     FetchListenersCount(id: string): Promise<number>;
     /**
+    * @param {string} Id
+    * @param {number} Offset
+    * @param {number} Limit
+    * @returns {Promise<{ User: import("../structures/User"), Album: import("../structures/Album"), At: Date, Id: string }[]>}
+    */
+    FetchLikes(Id: string, Offset?: number, Limit?: number): Promise<{
+        User: import("../structures/User");
+        Album: import("../structures/Album");
+        At: Date;
+        Id: string;
+    }[]>;
+    /**
    * @param {number} offset
    * @param {number} limit
    * @returns {Promise<{Album: Album, ListenersCount: number}[]>}

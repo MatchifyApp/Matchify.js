@@ -24,6 +24,18 @@ declare class GuildManager {
         DisplayName: string;
     }[]>;
     /**
+  * @param {string} Id
+  * @param {number} Offset
+  * @param {number} Limit
+  * @returns {Promise<{ User: import("../structures/User"), Guild: import("../structures/Guild"), At: Date, Id: string }[]>}
+  */
+    FetchLikes(Id: string, Offset?: number, Limit?: number): Promise<{
+        User: import("../structures/User");
+        Guild: import("../structures/Guild");
+        At: Date;
+        Id: string;
+    }[]>;
+    /**
     * @param {string} id
     * @returns {Promise<number>}
     */

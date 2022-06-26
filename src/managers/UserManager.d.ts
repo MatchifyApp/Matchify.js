@@ -32,6 +32,18 @@ declare class UserManager {
         ListenedCount: number;
     }[]>;
     /**
+    * @param {string} Id
+    * @param {number} Offset
+    * @param {number} Limit
+    * @returns {Promise<{ User: import("../structures/User"), TargetUser: import("../structures/User"), At: Date, Id: string }[]>}
+    */
+    FetchLikes(Id: string, Offset?: number, Limit?: number): Promise<{
+        User: import("../structures/User");
+        TargetUser: import("../structures/User");
+        At: Date;
+        Id: string;
+    }[]>;
+    /**
      * @param {string} id
      */
     FetchCurrentPlaying(id: string): Promise<{

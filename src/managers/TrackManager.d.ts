@@ -12,6 +12,18 @@ declare class TrackManager {
     Fetch(trackId: any): Promise<Track>;
     Import(data: any): Promise<Track>;
     /**
+    * @param {string} Id
+    * @param {number} Offset
+    * @param {number} Limit
+    * @returns {Promise<{ User: import("../structures/User"), Track: import("../structures/Track"), At: Date, Id: string }[]>}
+    */
+    FetchLikes(Id: string, Offset?: number, Limit?: number): Promise<{
+        User: import("../structures/User");
+        Track: import("../structures/Track");
+        At: Date;
+        Id: string;
+    }[]>;
+    /**
      * @param {string} id
      * @param {number} offset
      * @param {number} limit

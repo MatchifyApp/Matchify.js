@@ -125,7 +125,7 @@ module.exports = class TrackManager {
 
     return await quickMap(data, async i => {
       return {
-        User: await this.Fetch(i.UserId),
+        User: await this.Client.UserManager.Fetch(i.UserId),
         Track: await this.Fetch(i.TrackId),
         At: new Date(i.InsertedAt),
         Id: i.Id

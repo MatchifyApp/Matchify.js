@@ -129,7 +129,7 @@ module.exports = class GuildManager {
 
     return await quickMap(data, async i => {
       return {
-        User: await this.Fetch(i.UserId),
+        User: await this.Client.UserManager.Fetch(i.UserId),
         Guild: await this.Fetch(i.GuildId),
         At: new Date(i.InsertedAt),
         Id: i.Id

@@ -104,7 +104,7 @@ module.exports = class GenreManager {
 
     return await quickMap(data, async i => {
       return {
-        User: await this.Fetch(i.UserId),
+        User: await this.Client.UserManager.Fetch(i.UserId),
         Genre: await this.Fetch(i.GenreId),
         At: new Date(i.InsertedAt),
         Id: i.Id

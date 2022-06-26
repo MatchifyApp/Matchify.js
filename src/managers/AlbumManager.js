@@ -154,7 +154,7 @@ module.exports = class AlbumManager {
 
     return await quickMap(data, async i => {
       return {
-        User: await this.Fetch(i.UserId),
+        User: await this.Client.UserManager.Fetch(i.UserId),
         Album: await this.Fetch(i.AlbumId),
         At: new Date(i.InsertedAt),
         Id: i.Id

@@ -20,9 +20,10 @@ declare class LocalUserManager {
     }[]>;
     /**
      * @param {string} Id
+     * @param {number} TopGenreLimit
      * @returns {Promise<number>}
      */
-    FetchMatchPercent(Id: string): Promise<number>;
+    FetchMatchPercent(Id: string, TopGenreLimit?: number): Promise<number>;
     /**
      * @returns {Promise<{Track:import("../structures/Track"), Genre:import("../structures/Genre")}>}
      */

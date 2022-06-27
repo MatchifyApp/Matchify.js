@@ -38,11 +38,13 @@ module.exports = class LocalUserManager {
 
   /**
    * @param {string} Id
+   * @param {number} TopGenreLimit
    * @returns {Promise<number>}
    */
-  async FetchMatchPercent(Id) {
+  async FetchMatchPercent(Id, TopGenreLimit=5) {
     let data = await this.Client.AwaitResponse("LocalUser:Get:MatchPercent", {
-      Id
+      Id,
+      TopGenreLimit
     }, false);
 
     return data;

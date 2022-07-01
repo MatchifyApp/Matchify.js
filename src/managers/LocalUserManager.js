@@ -51,6 +51,31 @@ module.exports = class LocalUserManager {
   }
 
   /**
+   * @param {string} Id
+   * @param {string} InviteCode
+   * @returns {Promise<any>}
+   */
+  async SetGuildInviteCode(Id, InviteCode) {
+    let data = await this.Client.AwaitResponse("LocalUser:Set:Guild:InviteCode", {
+      Id,
+      InviteCode
+    }, false);
+
+    return data;
+  }
+
+  /**
+  * @returns {Promise<import("../structures/Guild")[]>}
+  */
+  async FetchOwnedGuilds() {
+    let data = await this.Client.AwaitResponse("LocalUser:Get:OwnedGuilds", {}, false);
+
+    return await quickMap(data, async (id) => {
+      return await this.Client.GuildManager.Fetch(id);
+    });
+  }
+
+  /**
    * @returns {Promise<{Track:import("../structures/Track"), Genre:import("../structures/Genre")}>}
    */
   async FetchSongSuggestion() {

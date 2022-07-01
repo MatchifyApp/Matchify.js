@@ -25,6 +25,16 @@ declare class LocalUserManager {
      */
     FetchMatchPercent(Id: string, TopGenreLimit?: number): Promise<number>;
     /**
+     * @param {string} Id
+     * @param {string} InviteCode
+     * @returns {Promise<any>}
+     */
+    SetGuildInviteCode(Id: string, InviteCode: string): Promise<any>;
+    /**
+    * @returns {Promise<import("../structures/Guild")[]>}
+    */
+    FetchOwnedGuilds(): Promise<import("../structures/Guild")[]>;
+    /**
      * @returns {Promise<{Track:import("../structures/Track"), Genre:import("../structures/Genre")}>}
      */
     FetchSongSuggestion(): Promise<{

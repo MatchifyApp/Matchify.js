@@ -52,14 +52,17 @@ module.exports = class LocalUserManager {
 
   /**
    * @param {string} Id
-   * @param {string} InviteCode
+   * @param {string} Code
    * @returns {Promise<any>}
    */
-  async SetGuildInviteCode(Id, InviteCode) {
+  async SetGuildInviteCode(Id, Code) {
     let data = await this.Client.AwaitResponse("LocalUser:Set:Guild:InviteCode", {
       Id,
-      InviteCode
+      Code
     }, false);
+
+    let cachedGuild = this.Client.GuildManager.Cache.get(Id);
+    if (cachedGuild) cachedGuild._Patch({ InviteCode: Code });
 
     return data;
   }

@@ -26,10 +26,10 @@ declare class LocalUserManager {
     FetchMatchPercent(Id: string, TopGenreLimit?: number): Promise<number>;
     /**
      * @param {string} Id
-     * @param {string} InviteCode
+     * @param {string} Code
      * @returns {Promise<any>}
      */
-    SetGuildInviteCode(Id: string, InviteCode: string): Promise<any>;
+    SetGuildInviteCode(Id: string, Code: string): Promise<any>;
     /**
     * @returns {Promise<import("../structures/Guild")[]>}
     */

@@ -33,6 +33,7 @@ class SocketManager {
     });
 
     this.Socket.on("disconnect", () => {
+      this.Events.emit("disconnect");
       this.Client.LocalUser = null;
     });
 

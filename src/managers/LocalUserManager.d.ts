@@ -31,6 +31,17 @@ declare class LocalUserManager {
      */
     SetGuildInviteCode(Id: string, Code: string): Promise<any>;
     /**
+     * @param {string} Id
+     * @param {string} Content
+     * @returns {Promise<any>}
+     */
+    SetUserNote(Id: string, Content: string): Promise<any>;
+    /**
+     * @param {string} Id
+     * @returns {Promise<string>}
+     */
+    GetUserNote(Id: string): Promise<string>;
+    /**
     * @returns {Promise<import("../structures/Guild")[]>}
     */
     FetchOwnedGuilds(): Promise<import("../structures/Guild")[]>;

@@ -68,6 +68,31 @@ module.exports = class LocalUserManager {
   }
 
   /**
+   * @param {string} Id
+   * @param {string} Content
+   * @returns {Promise<any>}
+   */
+  async SetUserNote(Id, Content) {
+    let data = await this.Client.AwaitResponse("LocalUser:Set:Note:User", {
+      Id,
+      Content
+    }, false);
+    return data;
+  }
+
+  /**
+   * @param {string} Id
+   * @returns {Promise<string>}
+   */
+  async GetUserNote(Id) {
+    let data = await this.Client.AwaitResponse("LocalUser:Get:Note:User", {
+      Id
+    }, false);
+    
+    return data;
+  }
+
+  /**
   * @returns {Promise<import("../structures/Guild")[]>}
   */
   async FetchOwnedGuilds() {

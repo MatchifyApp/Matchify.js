@@ -22,6 +22,7 @@ export type ManagerOptions = {
         LRU?: LRUOptions;
         Cache?: {
             Genres?: boolean;
+            Features?: boolean;
         };
     };
     Genre?: {
@@ -52,7 +53,7 @@ export type ClientOptions = {
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Track]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Album]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Artist]
- * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean } }} [User]
+ * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean, Features?: boolean } }} [User]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Genre]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Guild]
  */

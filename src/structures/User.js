@@ -26,6 +26,8 @@ module.exports = class User {
     this.ListenedCount = data.ListenedCount ?? this.ListenedCount ?? 0;
     /** @type {Map<string, { Count: number, Genre: import("./Genre") }>} */
     this.Genres = data.Genres ?? this.Genres ?? new Map();
+    /** @type {Map<string, { Name:string, Until:Date, At:Date }>} */
+    this.Features = data.Features ?? this.Features ?? new Map();
   }
 
 }

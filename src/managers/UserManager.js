@@ -86,13 +86,23 @@ module.exports = class UserManager {
       userGenres = new Map([...userGenres.entries()].sort((a, b) => b[1].Count - a[1].Count));
     }
 
+    let Features = new Map();
+
+    if (this.Client.Options.Managers.User.Cache.Features) {
+      let data = await this.FetchFeatures(userId);
+      data.forEach((i) => {
+        Features.set(i.Name, i);
+      });
+    }
+
     user = new User({
       ...data,
       CurrentPlaying: {
         Track: currentTrackData?.TrackId ? await this.Client.TrackManager.Fetch(currentTrackData.TrackId) : null,
         At: new Date(currentTrackData?.LastUpdated || Date.now())
       },
-      Genres: genresMap
+      Genres: genresMap,
+      Features
     });
     this.Cache.set(userId, user);
     return user;
@@ -244,6 +254,24 @@ module.exports = class UserManager {
         User: await this.Client.UserManager.Fetch(i.UserId),
         Guild: await this.Client.GuildManager.Fetch(i.GuildId),
         DisplayName: i.DisplayName
+      };
+    });
+  }
+
+  /**
+   * @param {string} id
+   * @returns {Promise<{Name:string,Until:Date,At:Date}[]>}
+   */
+  async FetchFeatures(id) {
+    let data = await this.Client.AwaitResponse(`Users:Get:Features`, {
+      Id: id
+    });
+
+    return await quickMap(data, async i => {
+      return {
+        At: new Date(i.InsertedAt),
+        Until: new Date(i.Until),
+        Name: i.FeatureName
       };
     });
   }

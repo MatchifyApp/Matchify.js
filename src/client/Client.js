@@ -19,7 +19,7 @@ const GuildManager = require("../managers/GuildManager");
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Track]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Album]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Artist]
- * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean } }} [User]
+ * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean, Features?: boolean } }} [User]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Genre]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Guild]
  */
@@ -73,7 +73,8 @@ class Client {
             maxSize: 16384
           },
           Cache: {
-            Genres: false
+            Genres: false,
+            Features: false
           }
         },
         Genre: {

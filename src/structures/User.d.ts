@@ -30,4 +30,10 @@ declare class User {
         Count: number;
         Genre: import("./Genre");
     }>;
+    /** @type {Map<string, { Name:string, Until:Date, At:Date }>} */
+    Features: Map<string, {
+        Name: string;
+        Until: Date;
+        At: Date;
+    }>;
 }

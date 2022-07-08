@@ -81,6 +81,15 @@ declare class UserManager {
         User: import("../structures/User");
         DisplayName: number;
     }[]>;
+    /**
+     * @param {string} id
+     * @returns {Promise<{Name:string,Until:Date,At:Date}[]>}
+     */
+    FetchFeatures(id: string): Promise<{
+        Name: string;
+        Until: Date;
+        At: Date;
+    }[]>;
     Destroy(): void;
 }
 import User = require("../structures/User");

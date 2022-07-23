@@ -14,5 +14,5 @@ const readdir = require("recursive-readdir");
   console.log("generating fresh d.ts");
   cp.execSync(`tsc --allowJs -m commonjs --emitDeclarationOnly -d src/index.js`);
   console.log("done");
-  setTimeout(() => { }, 1000);
+  setTimeout(() => { }, 2000);
 })();

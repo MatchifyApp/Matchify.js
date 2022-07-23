@@ -13,14 +13,21 @@ declare class UserManager {
      * @param {number} offset
      * @param {number} limit
      *
-     * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+     * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date, Id: string}[]>}
      */
     FetchHistory(id: string, offset?: number, limit?: number): Promise<{
         User: import("../structures/User");
         Track: import("../structures/Track");
         Distance: number;
         At: Date;
+        Id: string;
     }[]>;
+    /**
+     * @param {string} id
+     *
+     * @returns {Promise<any>}
+     */
+    DeleteHistoryItem(id: string): Promise<any>;
     /**
      * @param {string} Id
      * @param {number} Offset
@@ -62,13 +69,14 @@ declare class UserManager {
      * @param {string} search
      * @param {number} offset
      * @param {number} limit
-     * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+     * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date, Id: string}[]>}
      */
     SearchHistory(id: string, search: string, offset?: number, limit?: number): Promise<{
         User: import("../structures/User");
         Track: import("../structures/Track");
         Distance: number;
         At: Date;
+        Id: string;
     }[]>;
     /**
      * @param {string} id

@@ -113,7 +113,7 @@ module.exports = class UserManager {
    * @param {number} offset 
    * @param {number} limit 
    * 
-   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date, Id: string}[]>}
    */
   async FetchHistory(id, offset=0, limit=50) { 
     const data = await this.Client.AwaitResponse(`Users:Get:History`, {
@@ -126,9 +126,22 @@ module.exports = class UserManager {
         User: await this.Client.UserManager.Fetch(data.UserId),
         Track: await this.Client.TrackManager.Fetch(data.TrackId),
         Distance: data.Distance,
-        At: new Date(data.InsertedAt)
+        At: new Date(data.InsertedAt),
+        Id: data.Id
       };
     });
+  }
+
+  /**
+   * @param {string} id 
+   * 
+   * @returns {Promise<any>}
+   */
+  async DeleteHistoryItem(id) {
+    const data = await this.Client.AwaitResponse(`Users:Delete:HistoryItem`, {
+      Id: id
+    });
+    return data;
   }
 
   /**
@@ -216,7 +229,7 @@ module.exports = class UserManager {
    * @param {string} search 
    * @param {number} offset 
    * @param {number} limit 
-   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date}[]>}
+   * @returns {Promise<{User: import("../structures/User"), Track: import("../structures/Track"), Distance: number, At: Date, Id: string}[]>}
    */
   async SearchHistory(id, search, offset = 0, limit = 50) {
     let data = await this.Client.AwaitResponse(`Users:Search:History`, {
@@ -231,7 +244,8 @@ module.exports = class UserManager {
         User: await this.Client.UserManager.Fetch(i.UserId),
         Track: await this.Client.TrackManager.Fetch(i.TrackId),
         Distance: i.Distance,
-        At: new Date(i.InsertedAt)
+        At: new Date(i.InsertedAt),
+        Id: i.Id
       };
     });
   }

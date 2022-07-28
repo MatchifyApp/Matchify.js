@@ -205,7 +205,7 @@ module.exports = class TrackManager {
 
   /**
    * @param {number} Amount 
-   * @returns {Promise<{Track: import("../structures/Track"), ListenerCount:number}[]>}
+   * @returns {Promise<{Track: import("../structures/Track"), ListenersCount:number}[]>}
    */
   async FetchRandomActive(Amount = 50) {
     const data = await this.Client.AwaitResponse(`Tracks:Get:Active:Random`, {

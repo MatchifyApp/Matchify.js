@@ -60,11 +60,11 @@ declare class TrackManager {
     }[]>;
     /**
      * @param {number} Amount
-     * @returns {Promise<{Track: import("../structures/Track"), ListenerCount:number}[]>}
+     * @returns {Promise<{Track: import("../structures/Track"), ListenersCount:number}[]>}
      */
     FetchRandomActive(Amount?: number): Promise<{
         Track: import("../structures/Track");
-        ListenerCount: number;
+        ListenersCount: number;
     }[]>;
     /**
      * @param {string} search

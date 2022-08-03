@@ -22,6 +22,10 @@ const GuildManager = require("../managers/GuildManager");
  * @property {{ LRU?: LRUOptions, Cache?: { Genres?: boolean, Features?: boolean } }} [User]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Genre]
  * @property {{ LRU?: LRUOptions, Cache?: { Listeners?: boolean } }} [Guild]
+ * @property {{ LRU?: LRUOptions }} [Room]
+ * @property {{ LRU?: LRUOptions }} [RoomMessage]
+ * @property {{ LRU?: LRUOptions }} [Media]
+ * @property {{ Axios?: import("axios").AxiosRequestConfig }} [HTTP]
  */
 
 /**
@@ -38,61 +42,64 @@ class Client {
   constructor (clientOptions = {}) {
     this._UserAgent = `Matchify.js/${require("../../package.json").version} (API Wrapper)`;
     /** @type {ClientOptions} */
+    const DefaultLRU = {
+      maxAge: 3600000,
+      maxSize: 16384
+    };
     this.Options = defaultify(clientOptions, {
       Managers: {
         Track: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Listeners: false
           }
         },
         Album: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Listeners: false
           }
         },
         Artist: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Listeners: false
           }
         },
         User: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Genres: false,
             Features: false
           }
         },
         Genre: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Listeners: false
           }
         },
         Guild: {
-          LRU: {
-            maxAge: 3600000,
-            maxSize: 16384
-          },
+          LRU: DefaultLRU,
           Cache: {
             Listeners: false
+          }
+        },
+        Room: {
+          LRU: DefaultLRU,
+        },
+        RoomMessage: {
+          LRU: DefaultLRU,
+        },
+        Media: {
+          LRU: DefaultLRU
+        },
+        HTTP: {
+          Axios: {
+            baseURL: "https://matchify.org/api",
+            headers: {
+              ...(globalThis.navigator ? {} : { "User-Agent": this._UserAgent })
+            }
           }
         }
       },

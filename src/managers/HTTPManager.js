@@ -1,4 +1,4 @@
-const axios = require('axios').default;
+const { Axios } = require('axios');
 
 module.exports = class HTTPManager {
 
@@ -7,6 +7,7 @@ module.exports = class HTTPManager {
    */
   constructor (client) {
     this.Client = client;
+    this.Axios = new Axios(client.Options.Managers.HTTP.Axios);
   }
 
   /**
@@ -15,16 +16,16 @@ module.exports = class HTTPManager {
    * @returns {Promise<any>} 
    */
   async AwaitResponse(methodName, data = {}) {
-    let response = await axios({
-      method: "POST",
-      url: `${this.Client.Options.Socket.url}/api/v1/methods/${methodName}`,
-      headers: {
+    let response = await this.Axios.post(
+      `/v1/methods/${methodName}`,
+      JSON.stringify(data),
+      {
+        headers: {
         "Content-Type": "application/json",
-        ...(globalThis.navigator ? {} : { "User-Agent": this.Client._UserAgent })
+        "Authorization": this.Client.LocalUser?.Token
       },
-      data: JSON.stringify(data)
     })
-    if (!response.data.ok) throw response.data.error;
+    if (!response.data.ok) throw new Error(`API Error: ${response.data.error} (${methodName}, ${JSON.stringify(data)})`);
     return response.data.data;
   }
 }

@@ -31,7 +31,12 @@ module.exports = class MediaManager {
     );
     if (!res.data.ok) throw new Error(res.data.error);
 
-    let media = new Media(res.data.data);
+    let media = new Media({
+      Id,
+      Owner: await this.Client.UserManager.Fetch(res.data.data.OwnerId),
+      At: new Date(res.data.data.InsertedAt),
+      ...res.data.data
+    });
     this.Cache.set(Id, media);
     return media;
   }

@@ -37,24 +37,30 @@ class SocketManager {
       this.Client.LocalUser = null;
     });
 
-    let sseListenersMap = [
-      ["SSE:PopularArtists", "ArtistManager", "Artist"],
-      ["SSE:PopularAlbums", "AlbumManager", "Album"],
-      ["SSE:PopularTracks", "TrackManager", "Track"],
-      ["SSE:PopularGenres", "GenreManager", "Genre"],
-      ["SSE:PopularGuilds", "GuildManager", "Guild"],
-      ["SSE:RandomActiveTracks", "TrackManager", "Track"],
-    ]
+    {
+      let sseListenersMap = [
+        ["SSE:PopularArtists", "ArtistManager", "Artist"],
+        ["SSE:PopularAlbums", "AlbumManager", "Album"],
+        ["SSE:PopularTracks", "TrackManager", "Track"],
+        ["SSE:PopularGenres", "GenreManager", "Genre"],
+        ["SSE:PopularGuilds", "GuildManager", "Guild"],
+        ["SSE:RandomActiveTracks", "TrackManager", "Track"],
+      ]
 
-    sseListenersMap.forEach(([eventName, managerName, prop]) => { 
-      this.Socket.on(eventName, async (l) => {
-        this.Events.emit(eventName, await quickMap(l.filter(i=>i.Id), async (d) => {
-          return {
-            [prop]: await this.Client[managerName].Fetch(d.Id),
-            ListenersCount: d.ListenersCount
-          }
-        }));
+      sseListenersMap.forEach(([eventName, managerName, prop]) => {
+        this.Socket.on(eventName, async (l) => {
+          this.Events.emit(eventName, await quickMap(l.filter(i => i.Id), async (d) => {
+            return {
+              [prop]: await this.Client[managerName].Fetch(d.Id),
+              ListenersCount: d.ListenersCount
+            }
+          }));
+        });
       });
+    }
+
+    this.Socket.on("SSE:ActiveListenersCount", async (d) => {
+      this.Events.emit("ActiveListenersCount", d);
     });
   }
 

@@ -9,6 +9,8 @@ const HTTPManager = require("../managers/HTTPManager");
 const AuthManager = require("../managers/AuthManager");
 const LocalUserManager = require("../managers/LocalUserManager");
 const GuildManager = require("../managers/GuildManager");
+const MediaManager = require("../managers/MediaManager");
+const RoomManager = require("../managers/RoomManager");
 
 /**
  * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
@@ -125,6 +127,8 @@ class Client {
     this.AuthManager = new AuthManager(this);
     this.LocalUserManager = new LocalUserManager(this);
     this.GuildManager = new GuildManager(this);
+    this.MediaManager = new MediaManager(this);
+    this.RoomManager = new RoomManager(this);
 
     /** @type {{Token:string,Email:string,User:import("../structures/User")}?} */
     this.LocalUser = null;
@@ -169,6 +173,9 @@ class Client {
     this.ArtistManager.Destroy();
     this.AlbumManager.Destroy();
     this.GenreManager.Destroy();
+    this.MediaManager.Destroy();
+    this.RoomManager.Destroy();
+    this.RoomMessageManager.Destroy();
     this.LocalUser = null;
   }
 

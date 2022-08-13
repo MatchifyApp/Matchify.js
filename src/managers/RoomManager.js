@@ -2,6 +2,7 @@ const QuickLRU = require("@lib/quick-lru");
 const { quickMap } = require("async-and-quick");
 const BasicEventEmitter = require("../lib/BasicEventEmitter");
 const Room = require("../structures/Room");
+const RoomMessageManager = require("./RoomMessageManager");
 
 module.exports = class RoomManager {
   /**
@@ -22,7 +23,12 @@ module.exports = class RoomManager {
       this.Events.emit("Create", await this.Import(data));
     });
 
+    this.Socket.on("Room:Delete", (roomId) => {
+      this.Events.emit("Delete", roomId);
+      this.Cache.delete(roomId);
+    });
 
+    this.MessageManager = new RoomMessageManager(client);
   }
 
   /**
@@ -77,5 +83,21 @@ module.exports = class RoomManager {
 
     this.Cache.set(data.Id, item);
     return item;
+  }
+
+  /**
+   * @param {string} withWhoId
+   * @param {Promise<Room>}
+   */
+  async Create(withWhoId) {
+    let data = await this.Client.AwaitResponse("LocalUser:Rooms:Create", {
+      Id: withWhoId
+    });
+    return await this.Fetch(data.Id);
+  }
+
+  Destroy() {
+    this.Cache.clear();
+    this.MessageManager.Destroy();
   }
 }

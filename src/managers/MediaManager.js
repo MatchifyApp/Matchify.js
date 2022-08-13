@@ -1,6 +1,6 @@
 const QuickLRU = require("@lib/quick-lru");
-const { quickMap } = require("async-and-quick");
 const Media = require("../structures/Media");
+const FormData = require("form-data");
 
 module.exports = class MediaManager {
   /**
@@ -20,6 +20,10 @@ module.exports = class MediaManager {
 
   }
 
+  /**
+   * @param {string} Id 
+   * @returns {Promise<Media>}
+   */
   async Fetch(Id) {
     if (this.Cache.has(Id)) return this.Cache.get(Id);
 
@@ -39,5 +43,30 @@ module.exports = class MediaManager {
     });
     this.Cache.set(Id, media);
     return media;
+  }
+
+  /**
+   * @param {*} media 
+   * @returns {Promise<Media>}
+   */
+  async Upload(media) {
+    let data = new FormData({
+      maxDataSize: 7999999
+    });
+    data.append("media", media);
+    let res = await this.Client.HTTPManager.Axios.post(
+      `/v1/media/upload`,
+      data,
+      {
+        responseType: "json"
+      }
+    );
+    if (!res.data.ok) throw new Error(res.data.error);
+
+    return await this.Fetch(res.data.data.Id);
+  }
+
+  Destroy() {
+    this.Cache.clear();
   }
 }

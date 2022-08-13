@@ -133,6 +133,14 @@ module.exports = class UserManager {
   }
 
   /**
+   * @returns {number}
+   */
+  async FetchActiveListenersCount() {
+    let data = await this.Client.AwaitResponse("Users:Get:Active:ListenersCount", {});
+    return data;
+  }
+
+  /**
    * @param {string} id 
    * 
    * @returns {Promise<any>}

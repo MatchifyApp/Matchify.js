@@ -22,10 +22,10 @@ module.exports = class HTTPManager {
       {
         headers: {
         "Content-Type": "application/json",
-        "Authorization": this.Client.LocalUser?.Token
+        ...(this.Client.LocalUser?.Token ? { "Authorization": this.Client.LocalUser?.Token } : {})
       },
     })
-    if (!response.data.ok) throw new Error(`API Error: ${response.data.error} (${methodName}, ${JSON.stringify(data)})`);
+    if (response.data.error) throw new Error(`API Error: ${response.data.error || "No error message specified."} (${methodName}, ${JSON.stringify(data)})`);
     return response.data.data;
   }
 }

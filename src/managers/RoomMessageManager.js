@@ -71,7 +71,7 @@ module.exports = class RoomMessageManager {
       },
       false
     );
-    return await quickMap(data, (i) => await this.Import(i));
+    return await quickMap(data, async (i) => await this.Import(i));
   }
 
   /**

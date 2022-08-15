@@ -58,12 +58,15 @@ module.exports = class MediaManager {
       `/v1/media/upload`,
       data,
       {
-        responseType: "json"
+        headers: {
+          ...(this.Client.LocalUser?.Token ? { "Authorization": this.Client.LocalUser?.Token } : {})
+        }
       }
     );
-    if (!res.data.ok) throw new Error(res.data.error);
+    let json = JSON.parse(res.data);
+    if (!json.ok) throw new Error(json.error);
 
-    return await this.Fetch(res.data.data.Id);
+    return await this.Fetch(json.data.Id);
   }
 
   Destroy() {

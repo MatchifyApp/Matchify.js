@@ -21,11 +21,12 @@ module.exports = class HTTPManager {
       JSON.stringify(data),
       {
         headers: {
-        "Content-Type": "application/json",
-        ...(this.Client.LocalUser?.Token ? { "Authorization": this.Client.LocalUser?.Token } : {})
-      },
-    })
-    if (response.data.error) throw new Error(`API Error: ${response.data.error || "No error message specified."} (${methodName}, ${JSON.stringify(data)})`);
+          "Content-Type": "application/json",
+          ...(this.Client.LocalUser?.Token ? { "Authorization": this.Client.LocalUser?.Token } : {})
+        },
+        responseType: "json"
+      });
+    if (!response.data.ok) throw new Error(`API Error: ${response.data.error || "No error message specified."} (${methodName}, ${JSON.stringify(data)})`);
     return response.data.data;
   }
 }

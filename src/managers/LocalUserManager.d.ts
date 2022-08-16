@@ -25,6 +25,11 @@ declare class LocalUserManager {
      */
     FetchMatchPercent(Id: string, TopGenreLimit?: number): Promise<number>;
     /**
+     * @param {string} mediaId
+     * @returns {Promise<any>}
+     */
+    SetCustomAvatar(mediaId: string): Promise<any>;
+    /**
      * @param {string} Id
      * @param {string} Code
      * @returns {Promise<any>}
@@ -40,7 +45,7 @@ declare class LocalUserManager {
      * @param {string} Id
      * @returns {Promise<string>}
      */
-    GetUserNote(Id: string): Promise<string>;
+    FetchUserNote(Id: string): Promise<string>;
     /**
     * @returns {Promise<import("../structures/Guild")[]>}
     */

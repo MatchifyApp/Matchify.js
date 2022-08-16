@@ -51,6 +51,18 @@ module.exports = class LocalUserManager {
   }
 
   /**
+   * @param {string} mediaId
+   * @returns {Promise<any>}
+   */
+  async SetCustomAvatar(mediaId) {
+    let data = await this.Client.AwaitResponse("LocalUser:Set:Avatar", {
+      Id: mediaId
+    }, false);
+
+    return data;
+  }
+
+  /**
    * @param {string} Id
    * @param {string} Code
    * @returns {Promise<any>}
@@ -84,7 +96,7 @@ module.exports = class LocalUserManager {
    * @param {string} Id
    * @returns {Promise<string>}
    */
-  async GetUserNote(Id) {
+  async FetchUserNote(Id) {
     let data = await this.Client.AwaitResponse("LocalUser:Get:Note:User", {
       Id
     }, false);

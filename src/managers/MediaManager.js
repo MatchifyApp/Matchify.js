@@ -27,22 +27,29 @@ module.exports = class MediaManager {
   async Fetch(Id) {
     if (this.Cache.has(Id)) return this.Cache.get(Id);
 
-    let res = await this.Client.HTTPManager.Axios.get(
-      `/v1/media/${Id}/data.json`,
-      {
-        responseType: "json"
-      }
-    );
-    if (!res.data.ok) throw new Error(res.data.error);
+    let res = await this.Client.HTTPManager.Axios.get(`/v1/media/${Id}/data.json`);
+    let json = JSON.parse(res.data);
+    if (!json.ok) throw new Error(json.error);
 
     let media = new Media({
       Id,
-      Owner: await this.Client.UserManager.Fetch(res.data.data.OwnerId),
-      At: new Date(res.data.data.InsertedAt),
-      ...res.data.data
+      Owner: await this.Client.UserManager.Fetch(json.data.OwnerId),
+      At: new Date(json.data.InsertedAt),
+      ...json.data
     });
     this.Cache.set(Id, media);
     return media;
+  }
+
+  /**
+   * @param {string} Id 
+   * @returns {Promise<true>}
+   */
+  async Delete(Id) {
+    let res = await this.Client.HTTPManager.Axios.delete(`/v1/media/${Id}`);
+    let json = JSON.parse(res.data);
+    if (!json.ok) throw new Error(json.error);
+    return json.ok;
   }
 
   /**

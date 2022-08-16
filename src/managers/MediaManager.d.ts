@@ -13,6 +13,11 @@ declare class MediaManager {
      */
     Fetch(Id: string): Promise<Media>;
     /**
+     * @param {string} Id
+     * @returns {Promise<true>}
+     */
+    Delete(Id: string): Promise<true>;
+    /**
      * @param {*} media
      * @returns {Promise<Media>}
      */

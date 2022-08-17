@@ -21,7 +21,7 @@ module.exports = class RoomMessageManager {
 
     this.Socket.on("Room:Message:Create", async (data) => {
       let msg = await this.Import(data);
-      msg.Room.LastMessageAt = data.At;
+      msg.Room.LastMessageAt = new Date(data.InsertedAt);
       this.Events.emit("Create", msg);
     });
 

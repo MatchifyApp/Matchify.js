@@ -75,10 +75,10 @@ module.exports = class RoomMessageManager {
   }
 
   /**
-   * 
    * @param {string} roomId 
    * @param {string?} Content 
    * @param {string?} MediaId 
+   * @returns {Promise<RoomMessage>}
    */
   async Send(roomId, Content, MediaId) {
     let data = await this.Client.AwaitResponse(
@@ -92,6 +92,21 @@ module.exports = class RoomMessageManager {
     );
 
     return await this.Import(data);
+  }
+
+  /**
+   * @param {string} roomId d 
+   */
+  async SendTyping(roomId) {
+    let data = await this.Client.AwaitResponse(
+      "LocalUser:Rooms:Send:Typing",
+      {
+        Id: roomId
+      },
+      false
+    );
+
+    return data;
   }
 
   Destroy() {

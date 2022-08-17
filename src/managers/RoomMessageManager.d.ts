@@ -24,12 +24,16 @@ declare class RoomMessageManager {
      */
     FetchAll(roomId: string, Offset?: number, Limit?: number): Promise<RoomMessage[]>;
     /**
-     *
      * @param {string} roomId
      * @param {string?} Content
      * @param {string?} MediaId
+     * @returns {Promise<RoomMessage>}
      */
     Send(roomId: string, Content: string | null, MediaId: string | null): Promise<RoomMessage>;
+    /**
+     * @param {string} roomId d
+     */
+    SendTyping(roomId: string): Promise<any>;
     Destroy(): void;
 }
 import BasicEventEmitter = require("../lib/BasicEventEmitter");

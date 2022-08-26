@@ -136,7 +136,15 @@ module.exports = class UserManager {
    * @returns {number}
    */
   async FetchActiveListenersCount() {
-    let data = await this.Client.AwaitResponse("Users:Get:Active:ListenersCount", {});
+    let data = await this.Client.AwaitResponse("Users:Get:Active:Count:Listeners", {});
+    return data;
+  }
+
+  /**
+   * @returns {number}
+   */
+  async FetchActiveUsersCount() {
+    let data = await this.Client.AwaitResponse("Users:Get:Active:Count:Users", {});
     return data;
   }
 

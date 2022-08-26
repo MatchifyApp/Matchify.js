@@ -25,6 +25,8 @@ declare class User {
     CommentCount: number;
     /** @type {number} */
     ListenedCount: number;
+    /** @type {number} */
+    OnlineDevicesCount: number;
     /** @type {Map<string, { Count: number, Genre: import("./Genre") }>} */
     Genres: Map<string, {
         Count: number;

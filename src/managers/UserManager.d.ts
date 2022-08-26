@@ -27,6 +27,10 @@ declare class UserManager {
      */
     FetchActiveListenersCount(): number;
     /**
+     * @returns {number}
+     */
+    FetchActiveUsersCount(): number;
+    /**
      * @param {string} id
      *
      * @returns {Promise<any>}

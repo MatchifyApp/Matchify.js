@@ -47,6 +47,13 @@ declare class UserManager {
         ListenedCount: number;
     }[]>;
     /**
+     * @param {string} Id
+     * @param {number} Offset
+     * @param {number} Limit
+     * @returns {Promise<User[]>}
+     */
+    FetchTopUsers(Offset?: number, Limit?: number): Promise<User[]>;
+    /**
     * @param {string} Id
     * @param {number} Offset
     * @param {number} Limit

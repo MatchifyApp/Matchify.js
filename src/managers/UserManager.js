@@ -182,6 +182,23 @@ module.exports = class UserManager {
   }
 
   /**
+   * @param {string} Id 
+   * @param {number} Offset 
+   * @param {number} Limit 
+   * @returns {Promise<User[]>}
+   */
+  async FetchTopUsers(Offset = 0, Limit = 50) {
+    const data = await this.Client.AwaitResponse(`Users:Get:Top`, {
+      Offset,
+      Limit
+    });
+
+    return await quickMap(data, async i => {
+      return await this.Fetch(i);
+    });
+  }
+
+  /**
   * @param {string} Id 
   * @param {number} Offset 
   * @param {number} Limit 

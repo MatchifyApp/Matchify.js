@@ -71,11 +71,19 @@ module.exports = class LocalUserManager {
       Code: code
     }, false);
 
-    return data ? {
+    let f = data ? {
       At: new Date(data.InsertedAt),
       Until: new Date(data.Until),
       Name: i.FeatureName
-    } : false;
+    } : null
+
+    if (f) {
+      let m = new Map([...this.Client.LocalUser.User.Features.entries()]);
+      m.set(f.Name, f);
+      this.Client.LocalUser.User._Patch({ Features: m });
+    }
+
+    return f;
   }
 
   /**

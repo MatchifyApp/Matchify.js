@@ -30,6 +30,11 @@ declare class LocalUserManager {
      */
     SetCustomAvatar(mediaId: string): Promise<any>;
     /**
+     * @param {string} code
+     * @returns {Promise<boolean>}
+     */
+    RedeemFeature(code: string): Promise<boolean>;
+    /**
      * @param {string} Id
      * @param {string} Code
      * @returns {Promise<any>}

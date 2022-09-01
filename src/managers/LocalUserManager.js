@@ -63,6 +63,18 @@ module.exports = class LocalUserManager {
   }
 
   /**
+   * @param {string} code
+   * @returns {Promise<boolean>}
+   */
+  async RedeemFeature(code) {
+    let data = await this.Client.AwaitResponse("LocalUser:Features:Redeem", {
+      Code: code
+    }, false);
+
+    return data;
+  }
+
+  /**
    * @param {string} Id
    * @param {string} Code
    * @returns {Promise<any>}

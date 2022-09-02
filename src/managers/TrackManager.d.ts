@@ -5,12 +5,11 @@ declare class TrackManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Track>} */
-    Cache: import("@lib/quick-lru").QuickLRU<string, Track>;
+    Cache: LRUCache<string, any>;
     _HandleListener(data: any): Promise<void>;
     _SubscribeToListeners(trackId: any): Promise<void>;
-    Fetch(trackId: any): Promise<Track>;
-    Import(data: any): Promise<Track>;
+    Fetch(trackId: any): Promise<any>;
+    Import(data: any): Promise<any>;
     /**
     * @param {string} Id
     * @param {number} Offset
@@ -86,4 +85,5 @@ declare class TrackManager {
     }[]>;
     Destroy(): void;
 }
+import LRUCache = require("lru-cache");
 import Track = require("../structures/Track");

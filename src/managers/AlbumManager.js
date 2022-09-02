@@ -1,4 +1,4 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
 const { quickForEach, quickMap } = require("async-and-quick");
 const Album = require("../structures/Album");
 
@@ -9,10 +9,9 @@ module.exports = class AlbumManager {
   constructor (client) {
     this.Client = client;
 
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Album>} */
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.Album.LRU,
-      onEviction(key) {
+      dispose(value, key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `Album:${key}:Listener`,
           `Album:${key}:Increment`

@@ -1,4 +1,5 @@
-const QuickLRU = require('@lib/quick-lru');
+const LRUCache = require("lru-cache");
+
 const { quickForEach, quickMap } = require("async-and-quick");
 const User = require("../structures/User");
 
@@ -9,10 +10,10 @@ module.exports = class UserManager {
    */
   constructor (client) {
     this.Client = client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, User>} */
-    this.Cache = new QuickLRU({
+
+    this.Cache = new LRUCache({
       ...client.Options.Managers.User.LRU,
-      onEviction(key) {
+      dispose(value, key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `User:${key}:Track`,
           `User:${key}:Update`,

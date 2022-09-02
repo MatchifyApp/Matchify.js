@@ -5,12 +5,11 @@ declare class GuildManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Guild>} */
-    Cache: import("@lib/quick-lru").QuickLRU<string, Guild>;
+    Cache: LRUCache<string, any>;
     _HandleListener(data: any): Promise<void>;
     _SubscribeToListeners(genreId: any): Promise<void>;
-    Fetch(genreId: any): Promise<Guild>;
-    Import(data: any): Promise<Guild>;
+    Fetch(genreId: any): Promise<any>;
+    Import(data: any): Promise<any>;
     /**
     * @param {string} id
     * @param {number} offset
@@ -58,4 +57,5 @@ declare class GuildManager {
     Search(search: string, offset?: number, limit?: number): Promise<import("../structures/Guild")[]>;
     Destroy(): void;
 }
+import LRUCache = require("lru-cache");
 import Guild = require("../structures/Guild");

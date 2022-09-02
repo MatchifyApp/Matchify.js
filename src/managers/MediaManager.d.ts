@@ -6,7 +6,7 @@ declare class MediaManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    Cache: QuickLRU<any, any>;
+    Cache: LRUCache<string, any>;
     /**
      * @param {string} Id
      * @returns {Promise<Media>}
@@ -24,5 +24,5 @@ declare class MediaManager {
     Upload(media: any): Promise<Media>;
     Destroy(): void;
 }
-import QuickLRU = require("@lib/quick-lru");
+import LRUCache = require("lru-cache");
 import Media = require("../structures/Media");

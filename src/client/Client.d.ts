@@ -1,4 +1,4 @@
-export type LRUOptions = Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>;
+export type LRUOptions = import("lru-cache/index").Options<string, any>;
 export type ManagerOptions = {
     Track?: {
         LRU?: LRUOptions;
@@ -58,7 +58,7 @@ export type ClientOptions = {
     UseHTTP: boolean;
 };
 /**
- * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
+ * @typedef {import("lru-cache/index").Options<string, any>} LRUOptions
  */
 /**
  * @typedef {Object} ManagerOptions
@@ -85,7 +85,8 @@ export class Client {
      */
     constructor(clientOptions?: ClientOptions);
     _UserAgent: string;
-    Options: any;
+    /** @type {ClientOptions} */
+    Options: ClientOptions;
     SocketManager: SocketManager;
     UserManager: UserManager;
     TrackManager: TrackManager;

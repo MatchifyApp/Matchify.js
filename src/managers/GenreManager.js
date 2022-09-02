@@ -1,4 +1,4 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
 const { quickForEach, quickMap } = require("async-and-quick");
 const Genre = require("../structures/Genre");
 
@@ -10,10 +10,9 @@ module.exports = class GenreManager {
   constructor (client) {
     this.Client = client;
 
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Genre>} */
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.Genre.LRU,
-      onEviction(key) {
+      dispose(value, key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `Genre:${key}:Listener`
         ]);

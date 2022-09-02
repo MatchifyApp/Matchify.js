@@ -1,4 +1,5 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
+
 const Media = require("../structures/Media");
 const FormData = require("form-data");
 
@@ -10,7 +11,7 @@ module.exports = class MediaManager {
   constructor (client) {
     this.Client = client;
 
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.Media.LRU,
     });
 

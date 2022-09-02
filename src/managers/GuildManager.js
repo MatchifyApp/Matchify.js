@@ -1,4 +1,5 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
+
 const { quickForEach, quickMap } = require("async-and-quick");
 const Guild = require("../structures/Guild");
 
@@ -10,10 +11,9 @@ module.exports = class GuildManager {
   constructor (client) {
     this.Client = client;
 
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Guild>} */
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.Guild.LRU,
-      onEviction(key) {
+      dispose(value, key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `Guild:${key}:Listener`
         ]);

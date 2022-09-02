@@ -13,7 +13,7 @@ const MediaManager = require("../managers/MediaManager");
 const RoomManager = require("../managers/RoomManager");
 
 /**
- * @typedef {Partial<Omit<import("@lib/quick-lru").QuickLRUOptions<string, any>, "onEviction">>} LRUOptions
+ * @typedef {import("lru-cache/index").Options<string, any>} LRUOptions
  */
 
 /**
@@ -43,11 +43,11 @@ class Client {
    */
   constructor (clientOptions = {}) {
     this._UserAgent = `Matchify.js/${require("../../package.json").version} (API Wrapper)`;
-    /** @type {ClientOptions} */
+    /** @type {LRUOptions} */
     const DefaultLRU = {
-      maxAge: 3600000,
-      maxSize: 16384
+      max: 4096
     };
+    /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {
       Managers: {
         Track: {

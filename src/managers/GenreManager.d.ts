@@ -5,12 +5,11 @@ declare class GenreManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Genre>} */
-    Cache: import("@lib/quick-lru").QuickLRU<string, Genre>;
+    Cache: LRUCache<string, any>;
     _HandleListener(data: any): Promise<void>;
     _SubscribeToListeners(genreId: any): Promise<void>;
-    Fetch(genreId: any): Promise<Genre>;
-    Import(data: any): Promise<Genre>;
+    Fetch(genreId: any): Promise<any>;
+    Import(data: any): Promise<any>;
     /**
     * @param {string} Id
     * @param {number} Offset
@@ -99,4 +98,5 @@ declare class GenreManager {
     FetchRandomArtist(id: string): Promise<import("../structures/Artist")>;
     Destroy(): void;
 }
+import LRUCache = require("lru-cache");
 import Genre = require("../structures/Genre");

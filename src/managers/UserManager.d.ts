@@ -5,9 +5,8 @@ declare class UserManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, User>} */
-    Cache: import("@lib/quick-lru").QuickLRU<string, User>;
-    Fetch(userId: any): Promise<User>;
+    Cache: LRUCache<string, any>;
+    Fetch(userId: any): Promise<any>;
     /**
      * @param {string} id
      * @param {number} offset
@@ -69,7 +68,7 @@ declare class UserManager {
      * @param {string} id
      */
     FetchCurrentPlaying(id: string): Promise<{
-        Track: import("../structures/Track");
+        Track: any;
         At: Date;
     }>;
     /**
@@ -115,4 +114,5 @@ declare class UserManager {
     }[]>;
     Destroy(): void;
 }
+import LRUCache = require("lru-cache");
 import User = require("../structures/User");

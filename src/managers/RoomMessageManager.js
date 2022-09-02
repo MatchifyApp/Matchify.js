@@ -1,4 +1,5 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
+
 const { quickMap } = require("async-and-quick");
 const BasicEventEmitter = require("../lib/BasicEventEmitter");
 const Room = require("../structures/Room");
@@ -15,7 +16,7 @@ module.exports = class RoomMessageManager {
 
     this.Events = new BasicEventEmitter();
 
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.RoomMessage.LRU,
     });
 

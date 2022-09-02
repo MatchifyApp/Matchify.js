@@ -8,7 +8,7 @@ declare class RoomMessageManager {
     Client: import("../client/Client").Client;
     Socket: import("socket.io-client").Socket<import("@socket.io/component-emitter").DefaultEventsMap, import("@socket.io/component-emitter").DefaultEventsMap>;
     Events: BasicEventEmitter;
-    Cache: QuickLRU<any, any>;
+    Cache: LRUCache<string, any>;
     /**
      *
      * @param {*} data
@@ -37,5 +37,5 @@ declare class RoomMessageManager {
     Destroy(): void;
 }
 import BasicEventEmitter = require("../lib/BasicEventEmitter");
-import QuickLRU = require("@lib/quick-lru");
+import LRUCache = require("lru-cache");
 import RoomMessage = require("../structures/RoomMessage");

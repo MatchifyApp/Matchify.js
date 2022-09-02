@@ -5,12 +5,11 @@ declare class ArtistManager {
      */
     constructor(client: import("../client/Client").Client);
     Client: import("../client/Client").Client;
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Artist>} */
-    Cache: import("@lib/quick-lru").QuickLRU<string, Artist>;
+    Cache: LRUCache<string, any>;
     _HandleListener(data: any): Promise<void>;
     _SubscribeToListeners(artistId: any): Promise<void>;
-    Fetch(artistId: any): Promise<Artist>;
-    Import(data: any): Promise<Artist>;
+    Fetch(artistId: any): Promise<any>;
+    Import(data: any): Promise<any>;
     /**
   * @param {string} Id
   * @param {number} Offset
@@ -93,4 +92,5 @@ declare class ArtistManager {
     FetchAlbums(id: string, offset?: number, limit?: number): Promise<import("../structures/Album")[]>;
     Destroy(): void;
 }
+import LRUCache = require("lru-cache");
 import Artist = require("../structures/Artist");

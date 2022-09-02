@@ -1,4 +1,5 @@
-const QuickLRU = require("@lib/quick-lru");
+const LRUCache = require("lru-cache");
+
 const { quickForEach, quickMap } = require("async-and-quick");
 const Track = require("../structures/Track");
 
@@ -9,10 +10,9 @@ module.exports = class TrackManager {
   constructor (client) {
     this.Client = client;
 
-    /** @type {import("@lib/quick-lru").QuickLRU<string, Track>} */
-    this.Cache = new QuickLRU({
+    this.Cache = new LRUCache({
       ...client.Options.Managers.Track.LRU,
-      onEviction(key) {
+      dispose(value, key) {
         client.SocketManager.SubscriptionManager.Unsubscribe([
           `Track:${key}:Listener`
         ]);

@@ -45,7 +45,10 @@ class Client {
     this._UserAgent = `Matchify.js/${require("../../package.json").version} (API Wrapper)`;
     /** @type {LRUOptions} */
     const DefaultLRU = {
-      max: 4096
+      max: 1024,
+      ttl: 60000 * 10,
+      ttlResolution: 5000,
+      maxSize: 1024
     };
     /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {

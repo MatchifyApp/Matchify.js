@@ -46,8 +46,10 @@ class Client {
     /** @type {LRUOptions} */
     const DefaultLRU = {
       max: 1024,
+      maxSize: 1024,
       ttl: 60000 * 10,
       ttlResolution: 5000,
+      sizeCalculation() { return 1 }
     };
     /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {

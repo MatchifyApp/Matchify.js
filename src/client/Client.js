@@ -48,7 +48,6 @@ class Client {
       max: 1024,
       ttl: 60000 * 10,
       ttlResolution: 5000,
-      maxSize: 1024
     };
     /** @type {ClientOptions} */
     this.Options = defaultify(clientOptions, {

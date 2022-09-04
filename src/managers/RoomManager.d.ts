@@ -32,6 +32,11 @@ declare class RoomManager {
      * @param {Promise<Room>}
      */
     Create(withWhoId: string): Promise<Room>;
+    /**
+     * @param {string} roomId
+     * @param {Promise<Room>}
+     */
+    Delete(roomId: string): Promise<any>;
     Destroy(): void;
 }
 import BasicEventEmitter = require("../lib/BasicEventEmitter");

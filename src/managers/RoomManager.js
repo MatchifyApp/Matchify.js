@@ -97,6 +97,17 @@ module.exports = class RoomManager {
     return await this.Fetch(data.Id);
   }
 
+  /**
+   * @param {string} roomId
+   * @param {Promise<Room>}
+   */
+  async Delete(roomId) {
+    let data = await this.Client.AwaitResponse("LocalUser:Rooms:Delete", {
+      Id: roomId
+    });
+    return data;
+  }
+
   Destroy() {
     this.Cache.clear();
     this.MessageManager.Destroy();

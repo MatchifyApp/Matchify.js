@@ -47,8 +47,8 @@ class Client {
     const DefaultLRU = {
       max: 1024,
       maxSize: 1024,
-      ttl: 60000 * 10,
-      ttlResolution: 5000,
+      ttl: 60000,
+      ttlResolution: 1000,
       sizeCalculation() { return 1 }
     };
     /** @type {ClientOptions} */

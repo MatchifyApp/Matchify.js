@@ -74,7 +74,7 @@ module.exports = class LocalUserManager {
     let f = data ? {
       At: new Date(data.InsertedAt),
       Until: new Date(data.Until),
-      Name: i.FeatureName
+      Name: data.FeatureName
     } : null
 
     if (f) {

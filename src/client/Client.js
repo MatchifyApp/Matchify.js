@@ -27,6 +27,7 @@ const RoomManager = require("../managers/RoomManager");
  * @property {{ LRU?: LRUOptions }} [Room]
  * @property {{ LRU?: LRUOptions }} [RoomMessage]
  * @property {{ LRU?: LRUOptions }} [Media]
+ * @property {{ LRU?: LRUOptions }} [Notification]
  * @property {{ Axios?: import("axios").AxiosRequestConfig }} [HTTP]
  */
 
@@ -92,6 +93,9 @@ class Client {
           }
         },
         Room: {
+          LRU: DefaultLRU,
+        },
+        Notification: {
           LRU: DefaultLRU,
         },
         RoomMessage: {
